@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;    
+    perspective: 1000px;
+}
+
+.titulo {
+    display:flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 20px;
+    font-family: 'Arimo', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.login {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    margin-left: 50px;
+}
+
+.boxImage {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.imagen {
+    margin-left: 100px;
+    transform: rotateY(30deg)  translateZ(100px);
+    transform-style: preserve-3d;
+    height: 250px;
+    width: 400px;
+}
