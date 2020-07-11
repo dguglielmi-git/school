@@ -110,13 +110,13 @@ class App extends Component {
 
   createMenu() {
     this.menu = [
-      {
+     /* {
         label: "Principal",
         icon: "pi pi-fw pi-home",
         command: () => {
           window.location = "#/";
         },
-      },
+      },*/
       {
         label: "Cobranzas",
         icon: "pi pi-fw pi-dollar",
