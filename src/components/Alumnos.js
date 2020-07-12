@@ -7,6 +7,8 @@ import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import ApiController from "../service/ApiController";
+import { MultiSelect } from "primereact/multiselect";
+import { RadioButton } from "primereact/radiobutton";
 
 export class Alumnos extends Component {
   constructor() {
@@ -28,6 +30,9 @@ export class Alumnos extends Component {
       iLegajo: "",
       dropdownPais: null,
       fechaAlta: null,
+      adicionales1: [],
+      comedor1: [],
+      escolaridad: null,
     };
 
     this.newClient = this.newClient.bind(this);
@@ -93,6 +98,9 @@ export class Alumnos extends Component {
     const _documentNumber = this.notNulls(this.state.iDocumento);
     const _idNumber = this.notNulls(this.state.iLegajo);
     const _idTitular = this.state.listaTitular;
+    const _adicionales = this.state.adicionales1;
+    const _comedor = this.state.comedor1;
+    const _escolaridad = this.state.escolaridad;
 
     ApiController.insertAlumno(
       {
@@ -100,6 +108,9 @@ export class Alumnos extends Component {
         titularId: _idTitular,
         idNumber: _idNumber,
         documentNumber: _documentNumber,
+        adicionales: _adicionales,
+        comedor: _comedor,
+        escolaridad: _escolaridad,
       },
       this.loadAlumnos,
       this.showSuccess
@@ -164,6 +175,9 @@ export class Alumnos extends Component {
       iTitular: null,
       iLegajo: null,
       newForm: false,
+      adicionales1: [],
+      comedor1: [],
+      escolaridad: null,
     });
   }
 
@@ -206,6 +220,19 @@ export class Alumnos extends Component {
     /**
      * Constant for Dialog
      */
+    const adicionales = [
+      { label: "Idioma", value: "Idioma" },
+      { label: "Teatro", value: "Teatro" },
+      { label: "Deportes", value: "Deportes" },
+      { label: "Taller", value: "Taller" },
+    ];
+
+    const comedor = [
+      { label: "Almuerzo", value: "Almuerzo" },
+      { label: "Vianda Media Mañana", value: "Vianda Media Mañana" },
+      { label: "Merienda", value: "Merienda" },
+    ];
+
     const dialogFooter = (
       <div>
         <Button
@@ -307,6 +334,71 @@ export class Alumnos extends Component {
                     style={{ width: "250px" }}
                     onChange={(e) => this.handleChange(e, "iLegajo")}
                   />
+                </div>
+                <div className="p-col-12 p-md-4">
+                  <MultiSelect
+                    value={this.state.adicionales1}
+                    options={adicionales}
+                    onChange={(e) => this.setState({ adicionales1: e.value })}
+                    style={{ width: "250px", minWidth: "15em" }}
+                    filter={true}
+                    filterPlaceholder="Buscar"
+                    placeholder="Adicionales"
+                  />
+                </div>
+                <div className="p-col-12 p-md-4">
+                  <MultiSelect
+                    value={this.state.comedor1}
+                    options={comedor}
+                    onChange={(e) => this.setState({ comedor1: e.value })}
+                    style={{ width: "250px", minWidth: "15em" }}
+                    filter={true}
+                    filterPlaceholder="Buscar"
+                    placeholder="Comedor"
+                  />
+                </div>
+                <div className="p-col-12 p-md-4">
+                  <div
+                    className="p-grid"
+                    style={{
+                      width: "250px",
+                      marginTop: "0px",
+                      marginLeft: "0px",
+                      border: "0.4px solid lightgray",
+                      borderRadius: "3px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h3>Escolaridad</h3>
+                    <div className="p-col-12">
+                      <RadioButton
+                        inputId="rb1"
+                        name="escolaridad"
+                        value="Jornada Completa"
+                        onChange={(e) =>
+                          this.setState({ escolaridad: e.value })
+                        }
+                        checked={this.state.escolaridad === "Jornada Completa"}
+                      />
+                      <label htmlFor="rb1" className="p-radiobutton-label">
+                        Jornada Completa
+                      </label>
+                    </div>
+                    <div className="p-col-12">
+                      <RadioButton
+                        inputId="rb1"
+                        name="escolaridad"
+                        value="Media Jornada"
+                        onChange={(e) =>
+                          this.setState({ escolaridad: e.value })
+                        }
+                        checked={this.state.escolaridad === "Media Jornada"}
+                      />
+                      <label htmlFor="rb1" className="p-radiobutton-label">
+                        Media Jornada
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div

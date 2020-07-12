@@ -25,7 +25,6 @@ export class TableAlumno extends Component {
       selectedStatus: null,
       listaTitulares: [],
     };
-
     this.customerService = new CustomerService();
 
     //body cells
@@ -127,7 +126,7 @@ export class TableAlumno extends Component {
         placeholder="Todos"
         optionLabel="titularNombre"
         optionValue="titularNombre"
-        itemTemplate={this.representativeItemTemplate} 
+        itemTemplate={this.representativeItemTemplate}
         onChange={this.onRepresentativeFilterChange}
       />
     );
@@ -204,6 +203,11 @@ export class TableAlumno extends Component {
             sortable
             filter
             filterPlaceholder="Buscar por Legajo"
+          />
+          <Column
+            body={this.actionBodyTemplate}
+            headerStyle={{ width: "8em", textAlign: "center" }}
+            bodyStyle={{ textAlign: "center", overflow: "visible" }}
           />
         </DataTable>
       </div>
