@@ -357,13 +357,12 @@ export class Alumnos extends Component {
                     placeholder="Comedor"
                   />
                 </div>
-                <div className="p-col-12 p-md-4">
+              </div>
+              <div className="p-col-12 p-md-4">
                   <div
                     className="p-grid"
                     style={{
                       width: "250px",
-                      marginTop: "0px",
-                      marginLeft: "0px",
                       border: "0.4px solid lightgray",
                       borderRadius: "3px",
                       justifyContent: "center",
@@ -400,7 +399,6 @@ export class Alumnos extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
               <div
                 style={{
                   marginTop: "10px",
