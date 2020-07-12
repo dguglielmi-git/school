@@ -1,36 +1,24 @@
 import React, { Component } from "react";
 import classNames from "classnames";
+import { AppMenu } from "./AppMenu";
 import { AppTopbar } from "./AppTopbar";
 import { AppFooter } from "./AppFooter";
-import { AppMenu } from "./AppMenu";
-import { AppProfile } from "./AppProfile";
 import { Route } from "react-router-dom";
-import { Dashboard } from "./components/Dashboard";
-import { FormsDemo } from "./components/FormsDemo";
-import { SampleDemo } from "./components/SampleDemo";
-import { DataDemo } from "./components/DataDemo";
-import { PanelsDemo } from "./components/PanelsDemo";
-import { OverlaysDemo } from "./components/OverlaysDemo";
-import { MenusDemo } from "./components/MenusDemo";
-import { MessagesDemo } from "./components/MessagesDemo";
-import { ChartsDemo } from "./components/ChartsDemo";
-import { MiscDemo } from "./components/MiscDemo";
-import { EmptyPage } from "./components/EmptyPage";
-import { Documentation } from "./components/Documentation";
-
+import Login from "./view/Login/Login.js";
+import { AppProfile } from "./AppProfile";
+import {Alumnos} from './components/Alumnos'
 import { Cobros } from "./components/Cobros";
-import { Facturacion } from "./components/Facturacion";
+import {Principal} from './components/Principal'
 import { Titulares } from "./components/Titulares";
 import { Empleados } from "./components/Empleados";
-import {Alumnos} from './components/Alumnos'
-import Login from "./view/Login/Login.js";
+import { Facturacion } from "./components/Facturacion";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import "primeflex/primeflex.css";
-import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
+import "@fullcalendar/core/main.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
 import "./layout/layout.scss";
 import "./App.scss";
 
@@ -110,13 +98,6 @@ class App extends Component {
 
   createMenu() {
     this.menu = [
-     /* {
-        label: "Principal",
-        icon: "pi pi-fw pi-home",
-        command: () => {
-          window.location = "#/";
-        },
-      },*/
       {
         label: "Cobranzas",
         icon: "pi pi-fw pi-dollar",
@@ -232,23 +213,12 @@ class App extends Component {
           </div>
 
           <div className="layout-main">
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/forms" component={FormsDemo} />
-            <Route path="/sample" component={SampleDemo} />
+            <Route path="/" exact component={Principal} />
             <Route path="/cobros" component={Cobros} />
             <Route path="/facturacion" component={Facturacion} />
             <Route path="/titulares" component={Titulares} />
             <Route path="/empleados" component={Empleados} />
             <Route path="/alumnos" component={Alumnos} />
-            <Route path="/data" component={DataDemo} />
-            <Route path="/panels" component={PanelsDemo} />
-            <Route path="/overlays" component={OverlaysDemo} />
-            <Route path="/menus" component={MenusDemo} />
-            <Route path="/messages" component={MessagesDemo} />
-            <Route path="/charts" component={ChartsDemo} />
-            <Route path="/misc" component={MiscDemo} />
-            <Route path="/empty" component={EmptyPage} />
-            <Route path="/documentation" component={Documentation} />
           </div>
 
           <AppFooter />

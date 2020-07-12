@@ -58,13 +58,6 @@ export class Titulares extends Component {
     ApiController.getTitulares(this.loadTitulares);
   }
 
-  componentDidUpdate() {
-    this.state.listaTitulares.forEach((m) => {
-      console.log("Nombre Titular: " + m.fullName);
-    });
-    console.log(this.state.titNombre);
-  }
-
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
@@ -77,11 +70,6 @@ export class Titulares extends Component {
         value: this.notNulls(tit.documentNumber),
       });
     });
-
-    structure.forEach((st) => {
-      console.log(st);
-    });
-
     this.setState((state) => ({
       ...this.state,
       listaTitulares: structure,
@@ -159,7 +147,7 @@ export class Titulares extends Component {
   cancelNewClient() {
     this.setState((state) => ({
       ...this.state,
-      headerDialog: "Cancear Alta de Titulares",
+      headerDialog: "Cancelar Alta de Titulares",
       messageDialog: "¿Desea cancelar el alta del nuevo Titular?",
       flagDialog: "cancelDialog",
       display: true,

@@ -71,13 +71,6 @@ export class Empleados extends Component {
     ApiController.getEmpleados(this.loadEmpleados);
   }
 
-  componentDidUpdate() {
-    this.state.listaEmpleados.forEach((m) => {
-      console.log("Nombre Empleado: " + m.fullName);
-    });
-    console.log(this.state.titNombre);
-  }
-
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
@@ -91,9 +84,6 @@ export class Empleados extends Component {
       });
     });
 
-    structure.forEach((st) => {
-      console.log(st);
-    });
 
     this.setState((state) => ({
       ...this.state,
@@ -177,7 +167,7 @@ export class Empleados extends Component {
   cancelNewClient() {
     this.setState((state) => ({
       ...this.state,
-      headerDialog: "Cancear Alta de Empleados",
+      headerDialog: "Cancelar Alta de Empleados",
       messageDialog: "¿Desea cancelar el alta del nuevo Empleado?",
       flagDialog: "cancelDialog",
       display: true,
