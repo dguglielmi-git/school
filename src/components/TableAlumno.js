@@ -23,20 +23,8 @@ export class TableAlumno extends Component {
       selectedRepresentatives: null,
       dateFilter: null,
       selectedStatus: null,
+      listaTitulares: [],
     };
-
-    this.representatives = [
-      { name: "Amy Elsner", image: "amyelsner.png" },
-      { name: "Anna Fali", image: "annafali.png" },
-      { name: "Asiya Javayant", image: "asiyajavayant.png" },
-      { name: "Bernardo Dominic", image: "bernardodominic.png" },
-      { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-      { name: "Ioni Bowcher", image: "ionibowcher.png" },
-      { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-      { name: "Onyama Limba", image: "onyamalimba.png" },
-      { name: "Stephen Shaw", image: "stephenshaw.png" },
-      { name: "XuXue Feng", image: "xuxuefeng.png" },
-    ];
 
     this.customerService = new CustomerService();
 
@@ -53,17 +41,46 @@ export class TableAlumno extends Component {
       this
     );
     this.loadAlumnos = this.loadAlumnos.bind(this);
+    this.loadTitulares = this.loadTitulares.bind(this);
   }
 
   loadAlumnos(datos) {
+    let _data = [];
+
+    datos.forEach((e) => {
+      _data.push({
+        ...e,
+        titularNombre: e.titularData[0].fullName,
+      });
+    });
+
     this.setState((state) => ({
       ...this.state,
-      customers: datos,
+      customers: _data,
+    }));
+  }
+  notNulls(value) {
+    return value === null || value === undefined ? "" : value;
+  }
+
+  loadTitulares(lista) {
+    let structure = [];
+    lista.forEach((tit) => {
+      structure.push({
+        titularNombre: tit.fullName,
+        value: tit._id,
+      });
+    });
+
+    this.setState((state) => ({
+      ...this.state,
+      listaTitulares: structure,
     }));
   }
 
   componentDidMount() {
     ApiController.getAlumnos(this.loadAlumnos);
+    ApiController.getTitulares(this.loadTitulares);
   }
 
   renderHeader() {
@@ -95,7 +112,7 @@ export class TableAlumno extends Component {
     return (
       <React.Fragment>
         <span style={{ verticalAlign: "middle", marginLeft: ".5em" }}>
-          {rowData.titularData[0].fullName}
+          {rowData.titularNombre}
         </span>
       </React.Fragment>
     );
@@ -106,12 +123,12 @@ export class TableAlumno extends Component {
       <MultiSelect
         className="p-column-filter"
         value={this.state.selectedRepresentatives}
-        options={this.representatives}
+        options={this.state.listaTitulares}
+        placeholder="Todos"
+        optionLabel="titularNombre"
+        optionValue="titularNombre"
+        itemTemplate={this.representativeItemTemplate} 
         onChange={this.onRepresentativeFilterChange}
-        itemTemplate={this.representativeItemTemplate}
-        placeholder="All"
-        optionLabel="name"
-        optionValue="name"
       />
     );
   }
@@ -120,14 +137,14 @@ export class TableAlumno extends Component {
     return (
       <div className="p-multiselect-representative-option">
         <span style={{ verticalAlign: "middle", marginLeft: ".5em" }}>
-          {option.fullName}
+          {option.titularNombre}
         </span>
       </div>
     );
   }
 
   onRepresentativeFilterChange(event) {
-    this.dt.filter(event.value, "representative.name", "in");
+    this.dt.filter(event.value, "titularNombre", "in");
     this.setState({ selectedRepresentatives: event.value });
   }
 
@@ -173,8 +190,8 @@ export class TableAlumno extends Component {
             filterPlaceholder="Buscar por DNI"
           />
           <Column
-            sortField="fullName"
-            filterField="fullName"
+            sortField="titularNombre"
+            filterField="titularNombre"
             header="Titular"
             body={this.representativeBodyTemplate}
             sortable
