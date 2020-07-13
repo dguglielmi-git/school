@@ -48,6 +48,19 @@ class ApiController extends Component {
     });
   }
 
+  updateTitular(data, showSuccess) {
+    const endpoint = `${url}${urlUpdateTitular}`;
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      showSuccess();
+      return response.json();
+    });
+  }
+
   getEmpleados(setListaEmpleados) {
     const endpoint = `${url}${urlGetEmployee}`;
     fetch(endpoint)

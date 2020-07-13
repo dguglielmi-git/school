@@ -8,6 +8,7 @@ import { MultiSelect } from "primereact/multiselect";
 import ApiController from "../service/ApiController";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.css";
+import EditDialog from './EditDialog'
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./TableAlumno.css";
@@ -23,6 +24,8 @@ export class TableAlumno extends Component {
       dateFilter: null,
       selectedStatus: null,
       listaTitulares: [],
+      display: false,
+      selectedItem: {},
     };
 
 
@@ -40,6 +43,8 @@ export class TableAlumno extends Component {
     );
     this.loadAlumnos = this.loadAlumnos.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
+    this.actionBodyTemplate = this.actionBodyTemplate.bind(this)
+
   }
 
   loadAlumnos(datos) {
@@ -60,6 +65,8 @@ export class TableAlumno extends Component {
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
+
+
 
   loadTitulares(lista) {
     let structure = [];
@@ -96,13 +103,11 @@ export class TableAlumno extends Component {
     );
   }
 
+
   actionBodyTemplate() {
+
     return (
-      <Button
-        type="button"
-        icon="pi pi-cog"
-        className="p-button-secondary"
-      ></Button>
+      <EditDialog selectedCustomers={this.state.selectedCustomers} />
     );
   }
 
@@ -146,6 +151,12 @@ export class TableAlumno extends Component {
     this.setState({ selectedRepresentatives: event.value });
   }
 
+  handleSelection(e) {
+    this.setState({ selectedCustomers: e.value})
+    console.log(e.value)
+    this.setState({selectedItem: e.value})
+  }
+
   render() {
     const header = this.renderHeader();
     const representativeFilter = this.renderRepresentativeFilter();
@@ -163,7 +174,8 @@ export class TableAlumno extends Component {
           globalFilter={this.state.globalFilter}
           selection={this.state.selectedCustomers}
           onSelectionChange={(e) =>
-            this.setState({ selectedCustomers: e.value })
+            this.handleSelection(e)
+           // console.log('seleccionado: ' + e.value)
           }
           paginator
           rows={10}

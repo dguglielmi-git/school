@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Growl } from "primereact/growl";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import EditTitulares from './EditTitulares';
 import { ListBox } from "primereact/listbox";
 import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
@@ -16,11 +17,13 @@ export class Titulares extends Component {
     this.state = {
       newForm: false,
       display: false,
+      displayEdit: false,
       headerDialog: "",
       messageDialog: "",
       flagDialog: "",
       listaTitular: null,
       listaTitulares: [],
+      listado: [],
       iNombre: "",
       iApellido: "",
       iEmail: "",
@@ -29,6 +32,7 @@ export class Titulares extends Component {
       iPhone: "",
       iCuil: "",
       iDocumento: "",
+      editCandidate: null,
       dropdownPais: null,
       paises: [
         { label: "País", value: null },
@@ -44,6 +48,7 @@ export class Titulares extends Component {
     this.loadTitulares = this.loadTitulares.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.closeEdit = this.closeEdit.bind(this);
   }
 
   showSuccess() {
@@ -69,12 +74,13 @@ export class Titulares extends Component {
     lista.forEach((tit) => {
       structure.push({
         label: this.notNulls(tit.fullName),
-        value: this.notNulls(tit.documentNumber),
+        value: this.notNulls(tit._id),
       });
     });
     this.setState((state) => ({
       ...this.state,
       listaTitulares: structure,
+      listado: lista,
     }));
   }
 
@@ -156,7 +162,27 @@ export class Titulares extends Component {
       iDocumento: null,
       dropdownPais: null,
       newForm: false,
+      editCandidate: null,
     });
+  }
+
+  getData(id) {
+    let res = "";
+    this.state.listado.forEach((tit) => {
+      if (tit._id === id) {
+        res = tit;
+      }
+    })
+    return res;
+  }
+
+  closeEdit() {
+    this.setState({ displayEdit: false })
+  }
+
+  editContact() {
+    const resul = this.getData(this.state.listaTitular)
+    this.setState({ displayEdit: true, editCandidate: resul, iNombre: resul.fullName })
   }
 
   toggleDialog(selec) {
@@ -245,7 +271,7 @@ export class Titulares extends Component {
               </div>
             </Toolbar>
             <div className="p-col-12 p-md-4">
-            <p>Listado de Titulares</p>
+              <p>Listado de Titulares</p>
               <ListBox
                 value={this.state.listaTitular}
                 options={this.state.listaTitulares}
@@ -255,6 +281,18 @@ export class Titulares extends Component {
                   this.setState({ listaTitular: event.value })
                 }
                 filter={true}
+              />
+              <EditTitulares
+                display={this.state.displayEdit}
+                closeEdit={this.closeEdit} 
+                showSuccess={this.showSuccess}
+                editCandidate={this.state.editCandidate}
+              />
+              <Button
+                label="Editar"
+                icon="pi pi-plus"
+                style={{ marginRight: ".25em" }}
+                onClick={() => this.editContact()}
               />
             </div>
           </div>
