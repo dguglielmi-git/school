@@ -6,7 +6,6 @@ import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
 import ApiController from "../service/ApiController";
-import { CustomerService } from "../service/CustomerService";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
@@ -25,7 +24,7 @@ export class TableAlumno extends Component {
       selectedStatus: null,
       listaTitulares: [],
     };
-    this.customerService = new CustomerService();
+
 
     //body cells
     this.representativeBodyTemplate = this.representativeBodyTemplate.bind(

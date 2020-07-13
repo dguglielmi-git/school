@@ -118,23 +118,13 @@ export class Alumnos extends Component {
   }
 
   handleChange(event, nombre) {
-    switch (nombre) {
-      case "iNombre":
-        this.setState({ iNombre: event.target.value });
-        break;
-      case "iApellido":
-        this.setState({ iApellido: event.target.value });
-        break;
-      case "iLegajo":
-        this.setState({ iLegajo: event.target.value });
-        break;
-      case "iDocumento":
-        this.setState({ iDocumento: event.target.value });
-        break;
-      default:
-        break;
-    }
+    let _state = {
+      [`${nombre}`]: event.target.value
+    };
+
+    this.setState(_state)
   }
+
 
   newClient() {
     this.setState((state) => ({
@@ -359,46 +349,46 @@ export class Alumnos extends Component {
                 </div>
               </div>
               <div className="p-col-12 p-md-4">
-                  <div
-                    className="p-grid"
-                    style={{
-                      width: "250px",
-                      border: "0.4px solid lightgray",
-                      borderRadius: "3px",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <h3>Escolaridad</h3>
-                    <div className="p-col-12">
-                      <RadioButton
-                        inputId="rb1"
-                        name="escolaridad"
-                        value="Jornada Completa"
-                        onChange={(e) =>
-                          this.setState({ escolaridad: e.value })
-                        }
-                        checked={this.state.escolaridad === "Jornada Completa"}
-                      />
-                      <label htmlFor="rb1" className="p-radiobutton-label">
-                        Jornada Completa
+                <div
+                  className="p-grid"
+                  style={{
+                    width: "250px",
+                    border: "0.4px solid lightgray",
+                    borderRadius: "3px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <h3>Escolaridad</h3>
+                  <div className="p-col-12">
+                    <RadioButton
+                      inputId="rb1"
+                      name="escolaridad"
+                      value="Jornada Completa"
+                      onChange={(e) =>
+                        this.setState({ escolaridad: e.value })
+                      }
+                      checked={this.state.escolaridad === "Jornada Completa"}
+                    />
+                    <label htmlFor="rb1" className="p-radiobutton-label">
+                      Jornada Completa
                       </label>
-                    </div>
-                    <div className="p-col-12">
-                      <RadioButton
-                        inputId="rb1"
-                        name="escolaridad"
-                        value="Media Jornada"
-                        onChange={(e) =>
-                          this.setState({ escolaridad: e.value })
-                        }
-                        checked={this.state.escolaridad === "Media Jornada"}
-                      />
-                      <label htmlFor="rb1" className="p-radiobutton-label">
-                        Media Jornada
+                  </div>
+                  <div className="p-col-12">
+                    <RadioButton
+                      inputId="rb1"
+                      name="escolaridad"
+                      value="Media Jornada"
+                      onChange={(e) =>
+                        this.setState({ escolaridad: e.value })
+                      }
+                      checked={this.state.escolaridad === "Media Jornada"}
+                    />
+                    <label htmlFor="rb1" className="p-radiobutton-label">
+                      Media Jornada
                       </label>
-                    </div>
                   </div>
                 </div>
+              </div>
               <div
                 style={{
                   marginTop: "10px",

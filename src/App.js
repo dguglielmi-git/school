@@ -7,7 +7,6 @@ import { Route } from "react-router-dom";
 import Login from "./view/Login/Login.js";
 import { AppProfile } from "./AppProfile";
 import { Alumnos } from "./components/Alumnos";
-import { Cobros } from "./components/Cobros";
 import { Principal } from "./components/Principal";
 import { Titulares } from "./components/Titulares";
 import { Empleados } from "./components/Empleados";
@@ -192,7 +191,6 @@ class App extends Component {
 
           <div className="layout-main">
             <Route path="/" exact component={Principal} />
-            <Route path="/cobros" component={Cobros} />
             <Route path="/facturacion" component={Facturacion} />
             <Route path="/titulares" component={Titulares} />
             <Route path="/empleados" component={Empleados} />

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { InputText } from "primereact/inputtext";
-import { Toolbar } from "primereact/toolbar";
+import { Growl } from "primereact/growl";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import ApiController from "../service/ApiController";
 import { ListBox } from "primereact/listbox";
+import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
-import { Growl } from "primereact/growl";
+import { InputText } from "primereact/inputtext";
+import ApiController from "../service/ApiController";
+
 
 export class Titulares extends Component {
   constructor() {
@@ -54,6 +55,7 @@ export class Titulares extends Component {
     this.growl.show(msg);
     this.cleanForm();
   }
+
   componentDidMount() {
     ApiController.getTitulares(this.loadTitulares);
   }
@@ -104,34 +106,11 @@ export class Titulares extends Component {
   }
 
   handleChange(event, nombre) {
-    switch (nombre) {
-      case "iNombre":
-        this.setState({ iNombre: event.target.value });
-        break;
-      case "iApellido":
-        this.setState({ iApellido: event.target.value });
-        break;
-      case "iEmail":
-        this.setState({ iEmail: event.target.value });
-        break;
-      case "iDireccion":
-        this.setState({ iDireccion: event.target.value });
-        break;
-      case "iProvincia":
-        this.setState({ iProvincia: event.target.value });
-        break;
-      case "iPhone":
-        this.setState({ iPhone: event.target.value });
-        break;
-      case "iCuil":
-        this.setState({ iCuil: event.target.value });
-        break;
-      case "iDocumento":
-        this.setState({ iDocumento: event.target.value });
-        break;
-      default:
-        break;
-    }
+    let _state = {
+      [`${nombre}`]: event.target.value
+    };
+
+    this.setState(_state)
   }
 
   newClient() {
