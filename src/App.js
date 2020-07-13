@@ -6,9 +6,9 @@ import { AppFooter } from "./AppFooter";
 import { Route } from "react-router-dom";
 import Login from "./view/Login/Login.js";
 import { AppProfile } from "./AppProfile";
-import {Alumnos} from './components/Alumnos'
+import { Alumnos } from "./components/Alumnos";
 import { Cobros } from "./components/Cobros";
-import {Principal} from './components/Principal'
+import { Principal } from "./components/Principal";
 import { Titulares } from "./components/Titulares";
 import { Empleados } from "./components/Empleados";
 import { Facturacion } from "./components/Facturacion";
@@ -99,46 +99,24 @@ class App extends Component {
   createMenu() {
     this.menu = [
       {
-        label: "Cobranzas",
-        icon: "pi pi-fw pi-dollar",
-        items: [
-          {
-            label: "Cobros",
-            icon: "pi pi-fw pi-money-bill",
-            to: "/cobros",
-          },
-          {
-            label: "Facturación",
-            icon: "pi pi-fw pi-bars",
-            to: "/facturacion",
-          },
-        ],
+        label: "Admin. de Titulares",
+        icon: "pi pi-fw pi-user",
+        to: "/titulares",
       },
       {
-        label: "Administración",
+        label: "Admin. de Alumnos",
+        icon: "pi pi-fw pi-user-edit",
+        to: "/alumnos",
+      },
+      {
+        label: "Admin. de Empleados",
         icon: "pi pi-fw pi-users",
-        items: [
-          {
-            label: "Titulares",
-            icon: "pi pi-fw pi-user",
-            to: "/titulares",
-          },
-          {
-            label: "Alumnos",
-            icon: "pi pi-fw pi-user-edit",
-            to: "/alumnos",
-          },
-          {
-            label: "Cuotas",
-            icon: "pi pi-fw pi-bars",
-            to: "/facturacion",
-          },
-          {
-            label: "Empleados",
-            icon: "pi pi-fw pi-users",
-            to: "/empleados",
-          },
-        ],
+        to: "/empleados",
+      },
+      {
+        label: "Facturación y Cobros",
+        icon: "pi pi-fw pi-dollar",
+        to: "/facturacion",
       },
     ];
   }
