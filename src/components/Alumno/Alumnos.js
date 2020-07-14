@@ -6,7 +6,7 @@ import { TableAlumno } from "./TableAlumno";
 import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import ApiController from "../service/ApiController";
+import ApiController from "../../service/ApiController";
 import { MultiSelect } from "primereact/multiselect";
 import { RadioButton } from "primereact/radiobutton";
 

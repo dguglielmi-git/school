@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import React, { useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
@@ -6,10 +5,10 @@ import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import './EditDialog.css'
+import './EditTitulares.css'
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import ApiController from "../service/ApiController";
+import ApiController from "../../service/ApiController";
 
 
 export default function EditTitulares({
@@ -18,7 +17,6 @@ export default function EditTitulares({
     showSuccess,
     editCandidate,
 }) {
-
     const [iId, setIid] = useState('');
     const [iNombre, setINombre] = useState('');
     const [iApellido, setIApellido] = useState('');
@@ -42,11 +40,10 @@ export default function EditTitulares({
         loadData();
     }, [editCandidate])
 
-
     const renderFooter = (name) => {
         return (
             <div>
-                <Button label="Guardar" icon="pi pi-check" onClick={() => guardarTitular()} />
+                <Button label="Guardar" icon="pi pi-save" onClick={() => guardarTitular()} />
                 <Button label="Cerrar" icon="pi pi-times" onClick={() => closeEdit()}
                     className="p-button-secondary" />
             </div>
@@ -61,7 +58,6 @@ export default function EditTitulares({
         let candidate = editCandidate
 
         if (candidate) {
-
             let _fullname = candidate.fullName.split(' ');
             let _address = candidate.address.split(',');
             setIid(candidate._id);
@@ -76,7 +72,6 @@ export default function EditTitulares({
             setIPhone(candidate.phoneNumber)
         }
     }
-
 
     const guardarTitular = () => {
         const _id = iId;

@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { AppMenu } from "./AppMenu";
-import { AppTopbar } from "./AppTopbar";
-import { AppFooter } from "./AppFooter";
+import { AppMenu } from "./components/app/AppMenu";
+import { AppTopbar } from "./components/app/AppTopbar";
+import { AppFooter } from "./components/app/AppFooter";
 import { Route } from "react-router-dom";
 import Login from "./view/Login/Login.js";
-import { AppProfile } from "./AppProfile";
-import { Alumnos } from "./components/Alumnos";
+import { AppProfile } from "./components/app/AppProfile";
 import { Principal } from "./components/Principal";
-import { Titulares } from "./components/Titulares";
-import { Empleados } from "./components/Empleados";
-import { Facturacion } from "./components/Facturacion";
+import { Titulares } from "./components/Titular/Titulares";
+import { Empleados } from "./components/Empleado/Empleados";
+import { Alumnos } from "./components/Alumno/Alumnos";
+import { Facturacion } from "./components/Facturacion/Facturacion";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "@fullcalendar/daygrid/main.css";
@@ -19,7 +19,7 @@ import "@fullcalendar/core/main.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./layout/layout.scss";
-import "./App.scss";
+import "./components/app/App.scss";
 
 class App extends Component {
   constructor() {

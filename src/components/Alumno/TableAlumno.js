@@ -5,10 +5,9 @@ import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
-import ApiController from "../service/ApiController";
+import ApiController from "../../service/ApiController";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.css";
-import EditDialog from './EditDialog'
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./TableAlumno.css";
@@ -107,7 +106,8 @@ export class TableAlumno extends Component {
   actionBodyTemplate() {
 
     return (
-      <EditDialog selectedCustomers={this.state.selectedCustomers} />
+      
+    <div>{/*<EditDialog selectedCustomers={this.state.selectedCustomers}} />*/}</div>
     );
   }
 

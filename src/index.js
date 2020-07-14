@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 //import * as serviceWorker from './serviceWorker';
 import { HashRouter } from 'react-router-dom'
-import ScrollToTop from './ScrollToTop';
+import ScrollToTop from './components/app/ScrollToTop';
 
 ReactDOM.render(
     <HashRouter>

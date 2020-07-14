@@ -2,26 +2,28 @@ import React, { Component } from "react";
 import { Growl } from "primereact/growl";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { Toolbar } from "primereact/toolbar";
+import EditTitulares from './EditTitulares';
 import { ListBox } from "primereact/listbox";
-import { Calendar } from "primereact/calendar";
+import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import ApiController from "../service/ApiController";
+import ApiController from "../../service/ApiController";
 
 
-export class Empleados extends Component {
+export class Titulares extends Component {
   constructor() {
     super();
 
     this.state = {
       newForm: false,
       display: false,
+      displayEdit: false,
       headerDialog: "",
       messageDialog: "",
       flagDialog: "",
-      listaEmpleado: null,
-      listaEmpleados: [],
+      listaTitular: null,
+      listaTitulares: [],
+      listado: [],
       iNombre: "",
       iApellido: "",
       iEmail: "",
@@ -30,10 +32,8 @@ export class Empleados extends Component {
       iPhone: "",
       iCuil: "",
       iDocumento: "",
-      iPosition: "",
-      iFechaAlta: "",
+      editCandidate: null,
       dropdownPais: null,
-      fechaAlta: null,
       paises: [
         { label: "País", value: null },
         { label: "Argentina", value: "Argentina" },
@@ -42,57 +42,49 @@ export class Empleados extends Component {
         { label: "Mexico", value: "Mexico" },
         { label: "Venezuela", value: "Venezuela" },
       ],
-      dropdownPositions: null,
-      positions: [
-        { label: "Posición", value: null },
-        { label: "Profesor Titular", value: "Profesor Titular" },
-        { label: "Profesor Suplente", value: "Profesor Suplente" },
-        { label: "Director", value: "Director" },
-        { label: "Asistente Profesor", value: "Asistente Profesor" },
-      ],
     };
     this.toggleDialog = this.toggleDialog.bind(this);
     this.newClient = this.newClient.bind(this);
-    this.loadEmpleados = this.loadEmpleados.bind(this);
+    this.loadTitulares = this.loadTitulares.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.closeEdit = this.closeEdit.bind(this);
   }
 
   showSuccess() {
     let msg = {
       severity: "success",
-      summary: "Alta de Empleado",
-      detail: "El Empleado ha sido ingresado en el Sistema.",
+      summary: "Alta de Titular",
+      detail: "El Titular ha sido ingresado en el Sistema.",
     };
     this.growl.show(msg);
     this.cleanForm();
   }
 
   componentDidMount() {
-    ApiController.getEmpleados(this.loadEmpleados);
+    ApiController.getTitulares(this.loadTitulares);
   }
 
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
 
-  loadEmpleados(lista) {
+  loadTitulares(lista) {
     let structure = [];
     lista.forEach((tit) => {
       structure.push({
         label: this.notNulls(tit.fullName),
-        value: this.notNulls(tit.documentNumber),
+        value: this.notNulls(tit._id),
       });
     });
-
-
     this.setState((state) => ({
       ...this.state,
-      listaEmpleados: structure,
+      listaTitulares: structure,
+      listado: lista,
     }));
   }
 
-  guardarEmpleado() {
+  guardarTitular() {
     const _fullName = this.state.iNombre + " " + this.state.iApellido;
     const _email = this.notNulls(this.state.iEmail);
     const _address =
@@ -104,11 +96,8 @@ export class Empleados extends Component {
     const _phoneNumber = this.notNulls(this.state.iPhone);
     const _cuil = this.notNulls(this.state.iCuil);
     const _documentNumber = this.notNulls(this.state.iDocumento);
-    const _startDate =
-      this.state.fechaAlta === null ? "11/11/1111" : this.state.fechaAlta;
-    const _position = this.notNulls(this.state.dropdownPositions);
 
-    ApiController.insertEmpleado(
+    ApiController.insertTitular(
       {
         fullName: _fullName,
         email: _email,
@@ -116,10 +105,8 @@ export class Empleados extends Component {
         phoneNumber: _phoneNumber,
         cuil: _cuil,
         documentNumber: _documentNumber,
-        position: _position,
-        startDate: _startDate,
       },
-      this.loadEmpleados,
+      this.loadTitulares,
       this.showSuccess
     );
   }
@@ -135,8 +122,8 @@ export class Empleados extends Component {
   newClient() {
     this.setState((state) => ({
       ...this.state,
-      headerDialog: "Alta de Empleados",
-      messageDialog: "¿Desea dar de Alta un nuevo Empleado?",
+      headerDialog: "Alta de Titulares",
+      messageDialog: "¿Desea dar de Alta un nuevo Titular?",
       flagDialog: "newClient",
       display: true,
     }));
@@ -145,20 +132,20 @@ export class Empleados extends Component {
   cancelNewClient() {
     this.setState((state) => ({
       ...this.state,
-      headerDialog: "Cancelar Alta de Empleados",
-      messageDialog: "¿Desea cancelar el alta del nuevo Empleado?",
+      headerDialog: "Cancelar Alta de Titulares",
+      messageDialog: "¿Desea cancelar el alta del nuevo Titular?",
       flagDialog: "cancelDialog",
       display: true,
     }));
   }
 
-  saveEmpleado() {
+  saveTitular() {
     this.setState((state) => ({
       ...this.state,
-      headerDialog: "Alta de Empleado",
+      headerDialog: "Alta de Titulares",
       messageDialog:
-        "¿Desea guardar los cambios y proceder con el Alta del Empleado?",
-      flagDialog: "newEmpleado",
+        "¿Desea guardar los cambios y proceder con el Alta del Titular?",
+      flagDialog: "newTitular",
       display: true,
     }));
   }
@@ -175,9 +162,27 @@ export class Empleados extends Component {
       iDocumento: null,
       dropdownPais: null,
       newForm: false,
-      iFechaAlta: null,
-      iPosition: null,
+      editCandidate: null,
     });
+  }
+
+  getData(id) {
+    let res = "";
+    this.state.listado.forEach((tit) => {
+      if (tit._id === id) {
+        res = tit;
+      }
+    })
+    return res;
+  }
+
+  closeEdit() {
+    this.setState({ displayEdit: false })
+  }
+
+  editContact() {
+    const resul = this.getData(this.state.listaTitular)
+    this.setState({ displayEdit: true, editCandidate: resul, iNombre: resul.fullName })
   }
 
   toggleDialog(selec) {
@@ -197,8 +202,8 @@ export class Empleados extends Component {
             display: false,
           }));
           break;
-        case "newEmpleado":
-          this.guardarEmpleado();
+        case "newTitular":
+          this.guardarTitular();
           this.setState((state) => ({
             ...this.state,
             display: false,
@@ -250,7 +255,7 @@ export class Empleados extends Component {
           </Dialog>
 
           <div className="card">
-            <h1>Administración de Empleados</h1>
+            <h1>Administración de Titulares</h1>
             <Toolbar>
               <div className="p-toolbar-group-left">
                 <Button
@@ -265,18 +270,29 @@ export class Empleados extends Component {
                 />
               </div>
             </Toolbar>
-
             <div className="p-col-12 p-md-4">
-              <p>Listado de Empleados</p>
+              <p>Listado de Titulares</p>
               <ListBox
-                value={this.state.listaEmpleado}
-                options={this.state.listaEmpleados}
+                value={this.state.listaTitular}
+                options={this.state.listaTitulares}
                 listStyle={{ height: 150 }}
                 style={{ width: "300px" }}
                 onChange={(event) =>
-                  this.setState({ listaEmpleado: event.value })
+                  this.setState({ listaTitular: event.value })
                 }
                 filter={true}
+              />
+              <EditTitulares
+                display={this.state.displayEdit}
+                closeEdit={this.closeEdit} 
+                showSuccess={this.showSuccess}
+                editCandidate={this.state.editCandidate}
+              />
+              <Button
+                label="Editar"
+                icon="pi pi-user-edit"
+                style={{ marginRight: ".25em" }}
+                onClick={() => this.editContact()}
               />
             </div>
           </div>
@@ -289,7 +305,7 @@ export class Empleados extends Component {
                   onClick={() => this.cancelNewClient()}
                 />
               </div>
-              <h1>Alta nuevo Empleado</h1>
+              <h1>Alta nuevo Titular</h1>
               <div className="p-grid">
                 <div className="p-col-12 p-md-4">
                   <InputText
@@ -365,25 +381,6 @@ export class Empleados extends Component {
                     autoWidth={false}
                   />
                 </div>
-                <div className="p-col-12 p-md-4">
-                  <Dropdown
-                    style={{ width: "300px" }}
-                    options={this.state.positions}
-                    value={this.state.dropdownPositions}
-                    onChange={(event) =>
-                      this.setState({ dropdownPositions: event.value })
-                    }
-                    autoWidth={false}
-                  />
-                </div>
-                <div className="p-col-12 p-md-4">
-                  <Calendar
-                    placeholder="Fecha de Alta"
-                    style={{ width: "250px" }}
-                    value={this.state.fechaAlta}
-                    onChange={(e) => this.setState({ fechaAlta: e.value })}
-                  />
-                </div>
               </div>
               <div
                 style={{
@@ -398,7 +395,7 @@ export class Empleados extends Component {
                   icon="pi pi-check"
                   className="p-button-warning"
                   style={{ marginRight: ".25em" }}
-                  onClick={() => this.saveEmpleado()}
+                  onClick={() => this.saveTitular()}
                 />
               </div>
             </div>
