@@ -54,9 +54,17 @@ export default function EditEmpleado({
     const renderFooter = (name) => {
         return (
             <div>
-                <Button label="Guardar" icon="pi pi-save" onClick={() => guardarTitular()} />
-                <Button label="Cerrar" icon="pi pi-times" onClick={() => closeEdit()}
-                    className="p-button-secondary" />
+                <Button
+                    label="Guardar"
+                    icon="pi pi-save"
+                    onClick={() => guardarTitular()}
+                />
+                <Button
+                    label="Cerrar"
+                    icon="pi pi-times"
+                    onClick={() => closeEdit()}
+                    className="p-button-secondary"
+                />
             </div>
         );
     }

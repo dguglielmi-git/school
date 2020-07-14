@@ -27,7 +27,6 @@ export class TableAlumno extends Component {
       selectedItem: {},
     };
 
-
     //body cells
     this.representativeBodyTemplate = this.representativeBodyTemplate.bind(
       this
@@ -37,13 +36,14 @@ export class TableAlumno extends Component {
     this.representativeItemTemplate = this.representativeItemTemplate.bind(
       this
     );
+
     this.onRepresentativeFilterChange = this.onRepresentativeFilterChange.bind(
       this
     );
+    
     this.loadAlumnos = this.loadAlumnos.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
-    this.actionBodyTemplate = this.actionBodyTemplate.bind(this)
-
+    this.actionBodyTemplate = this.actionBodyTemplate.bind(this);
   }
 
   loadAlumnos(datos) {
@@ -64,8 +64,6 @@ export class TableAlumno extends Component {
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
-
-
 
   loadTitulares(lista) {
     let structure = [];
@@ -102,12 +100,13 @@ export class TableAlumno extends Component {
     );
   }
 
-
   actionBodyTemplate() {
-
     return (
-      
-    <div>{/*<EditDialog selectedCustomers={this.state.selectedCustomers}} />*/}</div>
+      <Button
+        type="button"
+        icon="pi pi-cog"
+        className="p-button-secondary"
+      ></Button>
     );
   }
 
@@ -152,9 +151,9 @@ export class TableAlumno extends Component {
   }
 
   handleSelection(e) {
-    this.setState({ selectedCustomers: e.value})
-    console.log(e.value)
-    this.setState({selectedItem: e.value})
+    this.setState({ selectedCustomers: e.value });
+    console.log(e.value);
+    this.setState({ selectedItem: e.value });
   }
 
   render() {
@@ -173,9 +172,9 @@ export class TableAlumno extends Component {
           rowHover
           globalFilter={this.state.globalFilter}
           selection={this.state.selectedCustomers}
-          onSelectionChange={(e) =>
-            this.handleSelection(e)
-           // console.log('seleccionado: ' + e.value)
+          onSelectionChange={
+            (e) => this.handleSelection(e)
+            // console.log('seleccionado: ' + e.value)
           }
           paginator
           rows={10}

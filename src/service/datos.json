@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+        "titularData": [
+            {
+                "_id": "5f077ac7a0ed1d322f36cc59",
+                "fullName": "Esteban Gonzalez",
+                "email": "esteban@gonzalez.com",
+                "address": "Avenida Siempre Viva 123, Buenos Aires, Argentina",
+                "phoneNumber": 1155443366,
+                "cuil": 20657463467,
+                "documentNumber": 65766346,
+                "__v": 0
+            }
+        ],
+        "_id": "5f0783de47808b38f0c338e2",
+        "fullName": "Cosme Fulanito",
+        "titularId": "5f077ac7a0ed1d322f36cc59",
+        "idNumber": 45,
+        "documentNumber": 48999444,
+        "__v": 0
+    },
+    {
+        "titularData": [
+            {
+                "_id": "5f077ac7a0ed1d322f36cc59",
+                "fullName": "Esteban Gonzalez2",
+                "email": "esteban@gonzalez.com",
+                "address": "Avenida Siempre Viva 123, Buenos Aires, Argentina",
+                "phoneNumber": 1155443366,
+                "cuil": 20657463467,
+                "documentNumber": 65766346,
+                "__v": 0
+            }
+        ],
+        "_id": "5f0783de47808b38f0c3383e",
+        "fullName": "Daniel Guglielmi",
+        "titularId": "5f077ac7a0ed1d322f36cc59",
+        "idNumber": 111111,
+        "documentNumber": 123456,
+        "__v": 0
+    }
+  ]
+}
