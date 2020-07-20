@@ -55,7 +55,7 @@ export class AppProfile extends Component {
           <p>¿Desea Cerrar la sesión?</p>
         </Dialog>
         <button className="p-link layout-profile-link" onClick={this.onClick}>
-          <span className="username">Daniel Guglielmi</span>
+          <span className="username">Usuario Admin</span>
           <i className="pi pi-fw pi-cog" />
         </button>
         <ul
