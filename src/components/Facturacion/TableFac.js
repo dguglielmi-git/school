@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -15,6 +15,9 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Button from "@material-ui/core/Button";
+
+
+import {getBill} from "../../service/ApiController2";
 
 const useRowStyles = makeStyles({
   root: {
@@ -54,10 +57,14 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.fullName}
+          {row.studentData[0].fullName}
         </TableCell>
-        <TableCell align="right">{row.titular}</TableCell>
+        <TableCell component="th" scope="row">
+          {row.instalment}
+        </TableCell>
+        <TableCell align="right">{row.date}</TableCell>
         <TableCell align="right">${row.total}</TableCell>
+        <TableCell align="right">{row.isPayed ? "Pagada" : "Impaga" }</TableCell>
         <TableCell align="right">
         <Button variant="outlined" color="primary">cobrar</Button>
         </TableCell>
@@ -82,13 +89,13 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.name}>
+                  {row.additionalData.map((row) => (
+                    <TableRow key={row.name}>
                       <TableCell component="th" scope="row">
-                        {historyRow.name}
+                        {row.name}
                       </TableCell>
-                      <TableCell>{historyRow.categoria}</TableCell>
-                      <TableCell align="right">${historyRow.precio}</TableCell>
+                      <TableCell>{row.type}</TableCell>
+                      <TableCell align="right">${row.price}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -116,27 +123,54 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData("Ariel Sandor", 159, 2806.0),
-  createData("Mariano Martino", 237, 2909.0),
-  createData("Mateo Teves", 262, 2416.0),
-  createData("Analia Sabatino", 305, 2773.7),
-  createData("Daniel Guglielmi", 356, 2616.0),
-];
 
-export default function CollapsibleTable() {
+
+export default function CollapsibleTable(props) {
+  // const [rows, setRows] = useState([{'_id': 1, 'total': 23, 'history': [{'name': '', 'categoria': '', 'precio': ''}] }]);
+  const [rows, setRows] = useState([]);
+  const fetchBill = async () => {
+    let data = await getBill();
+    setRows(data);
+    console.log("pirulo");
+    console.log(rows);
+  }; 
+  useEffect(() => {   
+ 
+    fetchBill();
+    
+    // Update the document title using the browser API    
+    // document.title = `You clicked ${count} times`; 
+    // let rows = [
+    //   createData("Ariel Sandor", 159, 2806.0),
+    //   createData("Mariano Martino", 237, 2909.0),
+    //   createData("Mateo Teves", 262, 2416.0),
+    //   createData("Analia Sabatino", 305, 2773.7),
+    //   createData("Daniel Guglielmi", 356, 2616.0),
+    // ]; 
+    // props.data.forEach((item, i) => rows.push(createData(item.studentData.fullName, item.studentData.idNumber, item.total)));
+    // setRows(props.data);
+    // console.log(props.data);
+  }, [])
+
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead style={{ backgroundColor: "#E1EAFE" }}>
           <TableRow>
             <TableCell />
-            <TableCell style={{ fontWeight: "bold" }}>Alumno</TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>Nombre Alumno</TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
-              Titular
+              Cuota Nro
             </TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
-              Importe Total Factura
+              Fecha Factura
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              Importe Total
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              Estado
             </TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
               Opciones
@@ -144,9 +178,9 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.fullName} row={row} />
-          ))}
+        {rows && rows.map((row) => (
+          <Row key={row._id} row={row} />
+        ))}
         </TableBody>
       </Table>
     </TableContainer>

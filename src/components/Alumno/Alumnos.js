@@ -8,7 +8,9 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import ApiController from "../../service/ApiController";
 import { MultiSelect } from "primereact/multiselect";
-import { RadioButton } from "primereact/radiobutton";
+import { SelectButton } from 'primereact/selectbutton';
+
+import {getAdditionalbyType} from "../../service/ApiController2";
 
 export class Alumnos extends Component {
   constructor() {
@@ -33,6 +35,9 @@ export class Alumnos extends Component {
       adicionales1: [],
       comedor1: [],
       escolaridad: null,
+      escol: [],
+      adic: [],
+      comed: []
     };
 
     this.newClient = this.newClient.bind(this);
@@ -41,6 +46,8 @@ export class Alumnos extends Component {
     this.toggleDialog = this.toggleDialog.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
+
+
   }
 
   showSuccess() {
@@ -56,10 +63,26 @@ export class Alumnos extends Component {
   componentDidMount() {
     ApiController.getAlumnos(this.loadAlumnos);
     ApiController.getTitulares(this.loadTitulares);
+    this.getAdditionalData();
+
   }
 
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
+  }
+
+  async getAdditionalData(){
+    let data1 = await getAdditionalbyType(1);
+    let data2 = await getAdditionalbyType(2);
+    let data3 = await getAdditionalbyType(3);
+    let escol = [];
+    let adic = [];
+    let comed = [];
+    data1.forEach(element => escol.push({label: element.name, value: element._id}));
+    data2.forEach(element => adic.push({label: element.name, value: element._id}));
+    data3.forEach(element => comed.push({label: element.name, value: element._id}));
+    this.setState({ adic: adic, comed: comed, escol: escol })
+    this.setState({escolaridad: escol[0].value})
   }
 
   loadTitulares(lista) {
@@ -93,6 +116,7 @@ export class Alumnos extends Component {
     console.log("Alumnos cargados");
   }
 
+
   guardarAlumno() {
     const _fullName = this.state.iNombre + " " + this.state.iApellido;
     const _documentNumber = this.notNulls(this.state.iDocumento);
@@ -101,27 +125,33 @@ export class Alumnos extends Component {
     const _adicionales = this.state.adicionales1;
     const _comedor = this.state.comedor1;
     const _escolaridad = this.state.escolaridad;
-
+    let additionalIds = [];
+    additionalIds = additionalIds.concat(_adicionales, _comedor, _escolaridad)
+    let datakj =  {
+      fullName: _fullName,
+      titularId: _idTitular,
+      idNumber: _idNumber,
+      documentNumber: _documentNumber,
+      additionalIds: additionalIds,
+    }
     ApiController.insertAlumno(
       {
         fullName: _fullName,
         titularId: _idTitular,
         idNumber: _idNumber,
         documentNumber: _documentNumber,
-        adicionales: _adicionales,
-        comedor: _comedor,
-        escolaridad: _escolaridad,
+        additionalIds: additionalIds,
       },
       this.loadAlumnos,
       this.showSuccess
     );
+    console.log(datakj);
   }
 
   handleChange(event, nombre) {
     let _state = {
       [`${nombre}`]: event.target.value
     };
-
     this.setState(_state)
   }
 
@@ -211,7 +241,7 @@ export class Alumnos extends Component {
      * Constant for Dialog
      */
     const adicionales = [
-      { label: "Idioma", value: "Idioma" },
+      { label: "Idioma", value: "sdfsdfsd" },
       { label: "Teatro", value: "Teatro" },
       { label: "Deportes", value: "Deportes" },
       { label: "Taller", value: "Taller" },
@@ -328,7 +358,7 @@ export class Alumnos extends Component {
                 <div className="p-col-12 p-md-4">
                   <MultiSelect
                     value={this.state.adicionales1}
-                    options={adicionales}
+                    options={this.state.adic}
                     onChange={(e) => this.setState({ adicionales1: e.value })}
                     style={{ width: "250px", minWidth: "15em" }}
                     filter={true}
@@ -339,7 +369,7 @@ export class Alumnos extends Component {
                 <div className="p-col-12 p-md-4">
                   <MultiSelect
                     value={this.state.comedor1}
-                    options={comedor}
+                    options={this.state.comed}
                     onChange={(e) => this.setState({ comedor1: e.value })}
                     style={{ width: "250px", minWidth: "15em" }}
                     filter={true}
@@ -359,34 +389,7 @@ export class Alumnos extends Component {
                   }}
                 >
                   <h3>Escolaridad</h3>
-                  <div className="p-col-12">
-                    <RadioButton
-                      inputId="rb1"
-                      name="escolaridad"
-                      value="Jornada Completa"
-                      onChange={(e) =>
-                        this.setState({ escolaridad: e.value })
-                      }
-                      checked={this.state.escolaridad === "Jornada Completa"}
-                    />
-                    <label htmlFor="rb1" className="p-radiobutton-label">
-                      Jornada Completa
-                      </label>
-                  </div>
-                  <div className="p-col-12">
-                    <RadioButton
-                      inputId="rb1"
-                      name="escolaridad"
-                      value="Media Jornada"
-                      onChange={(e) =>
-                        this.setState({ escolaridad: e.value })
-                      }
-                      checked={this.state.escolaridad === "Media Jornada"}
-                    />
-                    <label htmlFor="rb1" className="p-radiobutton-label">
-                      Media Jornada
-                      </label>
-                  </div>
+                  <SelectButton value={this.state.escolaridad} options={this.state.escol} onChange={(e) => this.setState({escolaridad: e.value})} />
                 </div>
               </div>
               <div
