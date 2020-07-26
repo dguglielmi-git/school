@@ -16,13 +16,13 @@ const RootLogin = styled.div`
   width: 100vw;
   background: linear-gradient(
       60deg,
-      rgba(214, 213, 226, 0.8),
-      rgba(214, 213, 226, 0) 70.71%
+      rgba(51, 49, 60, 0.8),
+      rgba(88, 87, 92, 0.8) 70.71%
     ),
     linear-gradient(
       210deg,
-      rgba(184, 203, 253, 0.8),
-      rgba(214, 213, 226, 0) 70.71%
+      rgba(51, 49, 60, 0.8),
+      rgba(88, 87, 92, 0.8) 70.71%
     ),
     linear-gradient(
       340deg,
@@ -44,7 +44,8 @@ const Mainbox = styled.div`
   height: 300px;
   border-radius: 3px 60px 3px 60px;
   border: 0.1px;
-  box-shadow: 0px 6px 42px -25px rgba(0, 0, 0, 0.95);
+  box-shadow: 30px 66px 102px -25px rgba(0, 0, 0, 0.95);
+  box-shadow: 30px 30px -10px -5px rgba(0, 0, 0, 0.95);
   background-color: white;
   justify-content: center;
 `;

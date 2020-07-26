@@ -1,0 +1,53 @@
+body {
+  padding: 0.5em;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: normal;
+  color: #333333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  margin-bottom: 50px;
+}
+.center-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.p-col-d {
+  display: table-cell;
+}
+.p-col-m {
+  display: none;
+}
+@media screen and (max-width: 1024px) {
+  .p-col-d {
+    display: none;
+  }
+  .p-col-m {
+    display: inline-block;
+  }
+}
+
+.dialog-demo > .p-button,
+.dialog-demo .p-grid .p-button {
+  margin: 0.5em 0.5em 0.5em 0;
+  width: 140px;
+}
+.dialog-demo .p-dialog .p-dialog-content {
+  line-height: 1.5;
+}
+
+.mainDiv {
+  display: flex;
+  flex-wrap: row;
+  margin-top: 30px;
+  z-index: 1;
+}
+
+.secondDiv {
+    width: 250px;
+}
+
+.spanSt {
+    margin-bottom: 20px;
+}

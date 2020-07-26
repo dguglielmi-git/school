@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
+import TableRow from "@material-ui/core/TableRow";
+import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import { getBill } from "../../service/ApiController2";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import TableContainer from "@material-ui/core/TableContainer";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Button from "@material-ui/core/Button";
-
-
-import {getBill} from "../../service/ApiController2";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import ModalCobro from "./ModalFac/ModalCobro";
 
 const useRowStyles = makeStyles({
   root: {
@@ -27,25 +26,25 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(fullName, titular, total) {
-  return {
-    fullName,
-    titular,
-    total,
-    history: [
-      { name: "Media Jornada", categoria: "Escolaridad", precio: 2500 },
-      { name: "Almuerzo", categoria: "Comedor", precio: 2000 },
-    ],
-  };
-}
-
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [displayBasic, setDisplayBasic] = useState(false);
+  const [clientSelected, setClientSelected] = useState([]);
   const classes = useRowStyles();
+
+  const openModal = (datos)=> {
+    setDisplayBasic(true);
+    setClientSelected(datos);
+  }
 
   return (
     <React.Fragment>
+      <ModalCobro
+        displayBasic={displayBasic}
+        setDisplayBasic={setDisplayBasic}
+        clientSelected={clientSelected}
+      />
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton
@@ -64,9 +63,11 @@ function Row(props) {
         </TableCell>
         <TableCell align="right">{row.date}</TableCell>
         <TableCell align="right">${row.total}</TableCell>
-        <TableCell align="right">{row.isPayed ? "Pagada" : "Impaga" }</TableCell>
+        <TableCell align="right">{row.isPayed ? "Pagada" : "Impaga"}</TableCell>
         <TableCell align="right">
-        <Button variant="outlined" color="primary">cobrar</Button>
+          <Button variant="outlined" color="primary" onClick={() => openModal(row)}>
+            cobrar
+          </Button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -123,8 +124,6 @@ Row.propTypes = {
   }).isRequired,
 };
 
-
-
 export default function CollapsibleTable(props) {
   // const [rows, setRows] = useState([{'_id': 1, 'total': 23, 'history': [{'name': '', 'categoria': '', 'precio': ''}] }]);
   const [rows, setRows] = useState([]);
@@ -133,25 +132,23 @@ export default function CollapsibleTable(props) {
     setRows(data);
     console.log("pirulo");
     console.log(rows);
-  }; 
-  useEffect(() => {   
- 
+  };
+  useEffect(() => {
     fetchBill();
-    
-    // Update the document title using the browser API    
-    // document.title = `You clicked ${count} times`; 
+
+    // Update the document title using the browser API
+    // document.title = `You clicked ${count} times`;
     // let rows = [
     //   createData("Ariel Sandor", 159, 2806.0),
     //   createData("Mariano Martino", 237, 2909.0),
     //   createData("Mateo Teves", 262, 2416.0),
     //   createData("Analia Sabatino", 305, 2773.7),
     //   createData("Daniel Guglielmi", 356, 2616.0),
-    // ]; 
+    // ];
     // props.data.forEach((item, i) => rows.push(createData(item.studentData.fullName, item.studentData.idNumber, item.total)));
     // setRows(props.data);
     // console.log(props.data);
-  }, [])
-
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -178,9 +175,7 @@ export default function CollapsibleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {rows && rows.map((row) => (
-          <Row key={row._id} row={row} />
-        ))}
+          {rows && rows.map((row) => <Row key={row._id} row={row} />)}
         </TableBody>
       </Table>
     </TableContainer>

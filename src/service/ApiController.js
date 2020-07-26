@@ -3,23 +3,26 @@ import { Component } from "react";
 const url = "https://distribuidas-school.herokuapp.com";
 
 // Users
-const urlLogin = "/user/login";                     // Login de usuario (POST)
-const urlGetUserList = "/User";                     // Lista de Usuarios (GET)
-const urlUserUpdate = "/user/update";               // Update User (PATCH)
-const urlUserRegistration = "/user/registration";   // Registro de Usuario (POST)
+const urlLogin = "/user/login";                       // Login de usuario (POST)
+const urlGetUserList = "/User";                       // Lista de Usuarios (GET)
+const urlUserUpdate = "/user/update";                 // Update User (PATCH)
+const urlUserRegistration = "/user/registration";     // Registro de Usuario (POST)
 
 // Titular
-const urlGetTitular = "/api/getTitular";            // Get Titular (GET)
-const urlInsertTitular = "/api/insertTitular";      // Insert Titular (POST)
-const urlUpdateTitular = "/api/updateTitular";      // Update Titular (POST)
+const urlGetTitular = "/api/getTitular";              // Get Titular (GET)
+const urlInsertTitular = "/api/insertTitular";        // Insert Titular (POST)
+const urlUpdateTitular = "/api/updateTitular";        // Update Titular (POST)
 
 // Student
-const urlGetStudent = "/api/getStudent";            // Get Student (GET)
-const urlInsertStudent = "/api/insertStudent";      // Insert Student (POST)
+const urlGetStudent = "/api/getStudent";              // Get Student (GET)
+const urlInsertStudent = "/api/insertStudent";        // Insert Student (POST)
 
 //Employee
-const urlGetEmployee = "/api/getEmployee";          // Get Employee (GET)
-const urlInsertEmployee = "/api/insertEmployee";    // Insert Employee (POST)
+const urlGetEmployee = "/api/getEmployee";            // Get Employee (GET)
+const urlInsertEmployee = "/api/insertEmployee";      // Insert Employee (POST)
+
+// Facturacion
+const urlUpdatePaymentInfo ="/api/updatePaymentInfo"; // Post
 
 
 class ApiController extends Component {
@@ -50,6 +53,19 @@ class ApiController extends Component {
 
   updateTitular(data, showSuccess) {
     const endpoint = `${url}${urlUpdateTitular}`;
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      showSuccess();
+      return response.json();
+    });
+  }
+
+  updateFacturacion(data, showSuccess) {
+    const endpoint = `${url}${urlUpdatePaymentInfo}`;
     fetch(endpoint, {
       method: "POST",
       mode: "cors",

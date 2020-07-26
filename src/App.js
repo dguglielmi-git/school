@@ -30,7 +30,7 @@ class App extends Component {
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
-      userLogged: true,
+      userLogged: false,
     };
 
     this.onWrapperClick = this.onWrapperClick.bind(this);
