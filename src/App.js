@@ -20,6 +20,7 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./layout/layout.scss";
 import "./components/app/App.scss";
+import {firebaseApp} from './service/firebase';
 
 class App extends Component {
   constructor() {
@@ -31,6 +32,7 @@ class App extends Component {
       overlayMenuActive: false,
       mobileMenuActive: false,
       userLogged: false,
+      userNameLogged: '',
     };
 
     this.onWrapperClick = this.onWrapperClick.bind(this);
@@ -41,10 +43,11 @@ class App extends Component {
     this.createMenu();
   }
 
-  updateLogin() {
+  updateLogin(name) {
     this.setState((state) => ({
       ...this.state,
       userLogged: !state.userLogged,
+      userNameLogged: name,
     }));
   }
 
@@ -185,7 +188,7 @@ class App extends Component {
             <div className="layout-logo">
               <img alt="Logo" src={logo} />
             </div>
-            <AppProfile updateLogin={this.updateLogin} />
+            <AppProfile updateLogin={this.updateLogin} userNameLogged={this.userNameLogged} />
             <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
           </div>
 

@@ -11,6 +11,7 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./TableAlumno.css";
+import EditAlumno from "./EditAlumno";
 
 export class TableAlumno extends Component {
   constructor() {
@@ -40,10 +41,11 @@ export class TableAlumno extends Component {
     this.onRepresentativeFilterChange = this.onRepresentativeFilterChange.bind(
       this
     );
-    
+
     this.loadAlumnos = this.loadAlumnos.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
     this.actionBodyTemplate = this.actionBodyTemplate.bind(this);
+    this.closeEdit = this.closeEdit.bind(this);
   }
 
   loadAlumnos(datos) {
@@ -100,12 +102,17 @@ export class TableAlumno extends Component {
     );
   }
 
+  modifyPupil() {
+    this.setState({ display: true });
+  }
+
   actionBodyTemplate() {
     return (
       <Button
         type="button"
         icon="pi pi-cog"
         className="p-button-secondary"
+        onClick={() => this.modifyPupil()}
       ></Button>
     );
   }
@@ -135,6 +142,10 @@ export class TableAlumno extends Component {
     );
   }
 
+  closeEdit() {
+    this.setState({ display: false });
+  }
+
   representativeItemTemplate(option) {
     return (
       <div className="p-multiselect-representative-option">
@@ -152,7 +163,7 @@ export class TableAlumno extends Component {
 
   handleSelection(e) {
     this.setState({ selectedCustomers: e.value });
-    console.log(e.value);
+    console.log(e.value.fullName);
     this.setState({ selectedItem: e.value });
   }
 
@@ -162,6 +173,12 @@ export class TableAlumno extends Component {
 
     return (
       <div className="datatable-doc-demo">
+        <EditAlumno
+          display={this.state.display}
+          closeEdit={this.closeEdit}
+          showSuccess={this.showSuccess}
+          editCandidate={this.state.editCandidate}
+        />
         <DataTable
           ref={(el) => (this.dt = el)}
           value={this.state.customers}

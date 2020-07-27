@@ -7,6 +7,9 @@ import "primereact/resources/primereact.min.css";
 import { createGlobalStyle } from "styled-components";
 import "primereact/resources/themes/nova-light/theme.css";
 import ApiController from "../../service/ApiController";
+import { validateEmail } from "../../service/validations.js";
+import * as firebase from "firebase";
+import { isEmpty } from "lodash";
 
 const GlobalStyles = createGlobalStyle`
     @import url("https://fonts.googleapis.com/css2?family=Arimo&display=swap");
@@ -19,11 +22,7 @@ const RootLogin = styled.div`
       rgba(51, 49, 60, 0.8),
       rgba(88, 87, 92, 0.8) 70.71%
     ),
-    linear-gradient(
-      210deg,
-      rgba(51, 49, 60, 0.8),
-      rgba(88, 87, 92, 0.8) 70.71%
-    ),
+    linear-gradient(210deg, rgba(51, 49, 60, 0.8), rgba(88, 87, 92, 0.8) 70.71%),
     linear-gradient(
       340deg,
       rgba(90, 84, 197, 0.8),
@@ -78,39 +77,77 @@ const ButtonContainer = styled.div`
 
 export default function Login(props) {
   const [listaUsuario, setListaUsuarios] = useState([]);
+  const [usuario, setUsuario] = useState("");
+  const [password, setPassword] = useState("");
 
   const checkLogin = () => {
-    // Function used to change Login state
-     props.updateLogin();
-   // testing();
+    if (isEmpty(usuario) || isEmpty(password)) {
+      alert("Todos los campos son obligatorios");
+    } else if (!validateEmail(usuario)) {
+      alert("El mail no es correcto.");
+    } else {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(usuario, password)
+        .then(() => {
+          var user = firebase.auth().currentUser;
+          /*if (user != null) {
+            user.providerData.forEach(function (profile) {
+              console.log("Sign-in provider: " + profile.providerId);
+              console.log("  Provider-specific UID: " + profile.uid);
+              console.log("  Name: " + profile.displayName);
+              console.log("  Email: " + profile.email);
+              console.log("  Photo URL: " + profile.photoURL);
+              
+               user
+                .updateProfile({
+                  displayName: "Daniel Guglielmi",
+                })
+                .then(() => {
+                  console.log("Ok");
+                })
+                .catch(() => {
+                  console.log("Error");
+                });
+            }
+            );
+          }*/
+          props.updateLogin();
+        })
+        .catch((e) => {
+          alert("Usuario o Password incorrecto.");
+        });
+    }
   };
 
-  const testing = async () => {
-   ApiController.getTitulares(setListaUsuarios);
-  };
-
-  useEffect (() => {
-    listaUsuario.forEach(m=> {
-        console.log(m.fullName)
-    })
-  },[listaUsuario])
-  
+  useEffect(() => {
+    listaUsuario.forEach((m) => {
+      console.log(m.fullName);
+    });
+  }, [listaUsuario]);
 
   return (
     <RootLogin>
       <GlobalStyles />
       <Container>
         <Mainbox>
-          <Titulo>Escuela 666</Titulo>
+          <Titulo>Escuela 666 </Titulo>
           <InputContainer>
             <InputUsuario>
-              <InputText placeholder="Usuario" style={{ width: "200px" }} />
+              <InputText
+                placeholder="Usuario"
+                style={{ width: "200px" }}
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+              />
             </InputUsuario>
             <div>
               <InputText
                 placeholder="Password"
                 type="password"
+                value={password}
                 style={{ width: "200px" }}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </InputContainer>

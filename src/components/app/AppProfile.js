@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
+import * as firebase from "firebase";
 
 export class AppProfile extends Component {
   constructor() {
@@ -9,8 +10,24 @@ export class AppProfile extends Component {
     this.state = {
       expanded: false,
       display: false,
+      userInfo: '',
+      userNameLogged:'Anónimo',
     };
     this.onClick = this.onClick.bind(this);
+  }
+
+  async componentDidMount() {
+    const user = await firebase.auth().currentUser;
+    console.log('*** usuario: '+ user.displayName);
+    this.setState({userInfo: user});
+    this.setState({userNameLogged: user.displayName});
+
+    var ee = this.props.userNameLogged;
+    console.log("Nombre: "+ee)
+    console.log("Printing user")
+    for (let i=0; i<user.lenght; i++) {
+      console.log(user[i])
+    }
   }
 
   onLogout() {
@@ -55,7 +72,7 @@ export class AppProfile extends Component {
           <p>¿Desea Cerrar la sesión?</p>
         </Dialog>
         <button className="p-link layout-profile-link" onClick={this.onClick}>
-          <span className="username">Usuario Admin</span>
+          <span className="username"> {this.state.userNameLogged}</span>
           <i className="pi pi-fw pi-cog" />
         </button>
         <ul
@@ -63,19 +80,7 @@ export class AppProfile extends Component {
             "layout-profile-expanded": this.state.expanded,
           })}
         >
-          <li>
-            <button className="p-link">
-              <i className="pi pi-fw pi-user" />
-              <span>Account</span>
-            </button>
-          </li>
-          <li>
-            <button className="p-link">
-              <i className="pi pi-fw pi-inbox" />
-              <span>Notifications</span>
-              <span className="menuitem-badge">2</span>
-            </button>
-          </li>
+         
           <li>
             <button
               className="p-link"

@@ -6,11 +6,10 @@ import { TableAlumno } from "./TableAlumno";
 import { Toolbar } from "primereact/toolbar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import ApiController from "../../service/ApiController";
 import { MultiSelect } from "primereact/multiselect";
-import { SelectButton } from 'primereact/selectbutton';
-
-import {getAdditionalbyType} from "../../service/ApiController2";
+import { SelectButton } from "primereact/selectbutton";
+import ApiController from "../../service/ApiController";
+import { getAdditionalbyType } from "../../service/ApiController2";
 
 export class Alumnos extends Component {
   constructor() {
@@ -37,17 +36,14 @@ export class Alumnos extends Component {
       escolaridad: null,
       escol: [],
       adic: [],
-      comed: []
+      comed: [],
     };
-
     this.newClient = this.newClient.bind(this);
     this.loadAlumnos = this.loadAlumnos.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
     this.toggleDialog = this.toggleDialog.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
-
-
   }
 
   showSuccess() {
@@ -64,25 +60,30 @@ export class Alumnos extends Component {
     ApiController.getAlumnos(this.loadAlumnos);
     ApiController.getTitulares(this.loadTitulares);
     this.getAdditionalData();
-
   }
 
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
   }
 
-  async getAdditionalData(){
+  async getAdditionalData() {
     let data1 = await getAdditionalbyType(1);
     let data2 = await getAdditionalbyType(2);
     let data3 = await getAdditionalbyType(3);
     let escol = [];
     let adic = [];
     let comed = [];
-    data1.forEach(element => escol.push({label: element.name, value: element._id}));
-    data2.forEach(element => adic.push({label: element.name, value: element._id}));
-    data3.forEach(element => comed.push({label: element.name, value: element._id}));
-    this.setState({ adic: adic, comed: comed, escol: escol })
-    this.setState({escolaridad: escol[0].value})
+    data1.forEach((element) =>
+      escol.push({ label: element.name, value: element._id })
+    );
+    data2.forEach((element) =>
+      adic.push({ label: element.name, value: element._id })
+    );
+    data3.forEach((element) =>
+      comed.push({ label: element.name, value: element._id })
+    );
+    this.setState({ adic: adic, comed: comed, escol: escol });
+    this.setState({ escolaridad: escol[0].value });
   }
 
   loadTitulares(lista) {
@@ -116,7 +117,6 @@ export class Alumnos extends Component {
     console.log("Alumnos cargados");
   }
 
-
   guardarAlumno() {
     const _fullName = this.state.iNombre + " " + this.state.iApellido;
     const _documentNumber = this.notNulls(this.state.iDocumento);
@@ -126,14 +126,14 @@ export class Alumnos extends Component {
     const _comedor = this.state.comedor1;
     const _escolaridad = this.state.escolaridad;
     let additionalIds = [];
-    additionalIds = additionalIds.concat(_adicionales, _comedor, _escolaridad)
-    let datakj =  {
+    additionalIds = additionalIds.concat(_adicionales, _comedor, _escolaridad);
+    let datakj = {
       fullName: _fullName,
       titularId: _idTitular,
       idNumber: _idNumber,
       documentNumber: _documentNumber,
       additionalIds: additionalIds,
-    }
+    };
     ApiController.insertAlumno(
       {
         fullName: _fullName,
@@ -150,11 +150,10 @@ export class Alumnos extends Component {
 
   handleChange(event, nombre) {
     let _state = {
-      [`${nombre}`]: event.target.value
+      [`${nombre}`]: event.target.value,
     };
-    this.setState(_state)
+    this.setState(_state);
   }
-
 
   newClient() {
     this.setState((state) => ({
@@ -355,7 +354,14 @@ export class Alumnos extends Component {
                     onChange={(e) => this.handleChange(e, "iLegajo")}
                   />
                 </div>
-                <div className="p-col-12 p-md-4">
+                <div
+                  className="p-col-12 p-md-4"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
                   <MultiSelect
                     value={this.state.adicionales1}
                     options={this.state.adic}
@@ -364,6 +370,10 @@ export class Alumnos extends Component {
                     filter={true}
                     filterPlaceholder="Buscar"
                     placeholder="Adicionales"
+                  />
+                  <Button
+                    icon="pi pi-plus"
+                    style={{ height: "27px", marginLeft: "10px" }}
                   />
                 </div>
                 <div className="p-col-12 p-md-4">
@@ -386,10 +396,16 @@ export class Alumnos extends Component {
                     border: "0.4px solid lightgray",
                     borderRadius: "3px",
                     justifyContent: "center",
+                    textAlign: "center",
+                    paddingBottom: "15px",
                   }}
                 >
                   <h3>Escolaridad</h3>
-                  <SelectButton value={this.state.escolaridad} options={this.state.escol} onChange={(e) => this.setState({escolaridad: e.value})} />
+                  <SelectButton
+                    value={this.state.escolaridad}
+                    options={this.state.escol}
+                    onChange={(e) => this.setState({ escolaridad: e.value })}
+                  />
                 </div>
               </div>
               <div
