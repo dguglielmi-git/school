@@ -90,27 +90,27 @@ export default function Login(props) {
         .auth()
         .signInWithEmailAndPassword(usuario, password)
         .then(() => {
-          var user = firebase.auth().currentUser;
-          /*if (user != null) {
+          /*  var user = firebase.auth().currentUser;
+          if (user != null) {
             user.providerData.forEach(function (profile) {
               console.log("Sign-in provider: " + profile.providerId);
               console.log("  Provider-specific UID: " + profile.uid);
               console.log("  Name: " + profile.displayName);
               console.log("  Email: " + profile.email);
               console.log("  Photo URL: " + profile.photoURL);
-              
-               user
-                .updateProfile({
-                  displayName: "Daniel Guglielmi",
-                })
-                .then(() => {
-                  console.log("Ok");
-                })
-                .catch(() => {
-                  console.log("Error");
-                });
-            }
-            );
+              if (profile.email === "asandor@uade.edu.ar") {
+                user
+                  .updateProfile({
+                    displayName: "Ariel Sandor",
+                  })
+                  .then(() => {
+                    console.log("Ok");
+                  })
+                  .catch(() => {
+                    console.log("Error");
+                  });
+              }
+            });
           }*/
           props.updateLogin();
         })
@@ -121,6 +121,9 @@ export default function Login(props) {
   };
 
   useEffect(() => {
+    setUsuario("dguglielmi@uade.edu.ar");
+    setPassword("newTh8izhanlv");
+    checkLogin()
     listaUsuario.forEach((m) => {
       console.log(m.fullName);
     });

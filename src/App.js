@@ -11,6 +11,7 @@ import { Titulares } from "./components/Titular/Titulares";
 import { Empleados } from "./components/Empleado/Empleados";
 import { Alumnos } from "./components/Alumno/Alumnos";
 import { Facturacion } from "./components/Facturacion/Facturacion";
+import {ProcesosBatch} from './view/ProcesosBatch/ProcesosBatch'
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "@fullcalendar/daygrid/main.css";
@@ -120,6 +121,11 @@ class App extends Component {
         icon: "pi pi-fw pi-dollar",
         to: "/facturacion",
       },
+      {
+        label: "Procesos Batch",
+        icon: "pi pi-fw pi-play",
+        to: "/batch",
+      },
     ];
   }
 
@@ -198,6 +204,7 @@ class App extends Component {
             <Route path="/titulares" component={Titulares} />
             <Route path="/empleados" component={Empleados} />
             <Route path="/alumnos" component={Alumnos} />
+            <Route path="/batch" component={ProcesosBatch} />
           </div>
 
           <AppFooter />

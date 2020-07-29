@@ -65,7 +65,7 @@ function Row(props) {
         <TableCell align="right">${row.total}</TableCell>
         <TableCell align="right">{row.isPayed ? "Pagada" : "Impaga"}</TableCell>
         <TableCell align="right">
-          <Button variant="outlined" color="primary" onClick={() => openModal(row)}>
+          <Button disabled={row.isPayed} variant="outlined" color="primary" onClick={() => openModal(row)}>
             cobrar
           </Button>
         </TableCell>
