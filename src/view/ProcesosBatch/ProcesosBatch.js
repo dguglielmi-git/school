@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
+import ApiController from "../../service/ApiController";
 
 export class ProcesosBatch extends Component {
   constructor() {
@@ -10,21 +11,29 @@ export class ProcesosBatch extends Component {
       dropdownMes: null,
       meses: [
         { label: "Mes", value: null },
-        { label: "Enero", value: "Enero" },
-        { label: "Febrero", value: "Febrero" },
-        { label: "Marzo", value: "Marzo" },
-        { label: "Abril", value: "Abril" },
-        { label: "Mayo", value: "Mayo" },
-        { label: "Junio", value: "Junio" },
-        { label: "Julio", value: "Julio" },
-        { label: "Agosto", value: "Agosto" },
-        { label: "Septiembre", value: "Septiembre" },
-        { label: "Octubre", value: "Octubre" },
-        { label: "Noviembre", value: "Noviembre" },
-        { label: "Diciembre", value: "Diciembre" },
+        { label: "Enero", value: 1 },
+        { label: "Febrero", value: 2 },
+        { label: "Marzo", value: 3 },
+        { label: "Abril", value: 4 },
+        { label: "Mayo", value: 5 },
+        { label: "Junio", value: 6 },
+        { label: "Julio", value: 7 },
+        { label: "Agosto", value: 8 },
+        { label: "Septiembre", value: 9 },
+        { label: "Octubre", value: 10 },
+        { label: "Noviembre", value: 11 },
+        { label: "Diciembre", value: 12 },
       ],
     };
   }
+  runMonthly() {
+    ApiController.runMonthly({ instalment: this.state.dropdownMes });
+  }
+
+  sendEmployeeSalaries() {
+    ApiController.sendEmployeeSalaries();
+  }
+
   render() {
     return (
       <div className="p-grid">
@@ -67,6 +76,7 @@ export class ProcesosBatch extends Component {
                   label="Enviar"
                   className="p-button-rounded"
                   style={{ marginLeft: "20px" }}
+                  onClick={() => this.runMonthly()}
                 />
               </div>
             </div>
@@ -89,12 +99,13 @@ export class ProcesosBatch extends Component {
                 }}
               >
                 Procesar Liquidación de Sueldos
-              </div>              
+              </div>
               <div>
                 <Button
                   label="Enviar"
                   className="p-button-rounded"
                   style={{ marginLeft: "20px" }}
+                  onClick={() => this.sendEmployeeSalaries()}
                 />
               </div>
             </div>

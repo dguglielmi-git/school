@@ -101,7 +101,7 @@ export default function ModalCobro({
       >
         <p style={{ fontWeigth: "bold" }}>
           *** ATENCION: La modificacion del metodo de pago, modificara el metodo
-          en TODAS las facturas impagas hasta la fecha
+              en TODAS las facturas impagas hasta la fecha.
         </p>
 
         <TabView

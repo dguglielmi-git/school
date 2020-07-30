@@ -66,13 +66,12 @@ class ApiController extends Component {
     });
   }
 
-  sendEmployeeSalaries(data){
+  sendEmployeeSalaries(){
     const endpoint = `${url}${urlSendEmployeeSalaries}`;
     fetch(endpoint, {
       method: "POST",
       mode: "cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" }
     }).then((response) => {
       console.log(response);
       return response.json();
