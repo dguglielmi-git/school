@@ -43,7 +43,7 @@ export default function ModalCobro({
     return (
       <div>
         <Button
-          label="Enviar"
+          label="Cobrar"
           icon="pi pi-check"
           onClick={() => processPayment(stateMethod)}
         />
