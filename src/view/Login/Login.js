@@ -120,6 +120,7 @@ export default function Login(props) {
     }
   };
 
+  /* Only for development
   useEffect(() => {
     setUsuario("dguglielmi@uade.edu.ar");
     setPassword("newTh8izhanlv");
@@ -128,7 +129,7 @@ export default function Login(props) {
       console.log(m.fullName);
     });
   }, [listaUsuario]);
-
+*/
   return (
     <RootLogin>
       <GlobalStyles />

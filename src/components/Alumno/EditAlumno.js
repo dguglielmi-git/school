@@ -27,7 +27,7 @@ export default function EditAlumno({
   const [iDocumento, setIDocumento] = useState("");
   const [iLegajo, setILegajo] = useState("");
   const [listaTitulares, setListaTitulares] = useState([]);
-  const [listaTitular, setListaTitular] = useState('');
+  const [listaTitular, setListaTitular] = useState("");
   const [alumnos, setAlumnos] = useState([]);
 
   const [adicionales1, setAdicionales1] = useState([]);
@@ -35,7 +35,7 @@ export default function EditAlumno({
   const [adic, setAdic] = useState([]);
   const [comed, setComed] = useState([]);
   const [escolaridad, setEscolaridad] = useState(null);
-  const [escol, setEscol] = useState(null);
+  const [escol, setEscol] = useState([]);
 
   const loadTitulares = (lista) => {
     let structure = [];
@@ -48,6 +48,12 @@ export default function EditAlumno({
     setListaTitulares(structure);
   };
 
+  const cerrar = () => {
+    setAdicionales1([]);
+    setComedor1([]);
+    closeEdit();
+
+  }
   const loadAlumnos = (datos) => {
     let _data = [];
 
@@ -67,10 +73,10 @@ export default function EditAlumno({
       if (al._id === idSeleccionado) {
         alumno = al;
       }
-    })
+    });
     return alumno;
-    
-  }
+  };
+
   useEffect(() => {
     ApiController.getAlumnos(loadAlumnos);
     ApiController.getTitulares(loadTitulares);
@@ -81,7 +87,7 @@ export default function EditAlumno({
     if (display) {
       loadData();
     }
-  },[idSeleccionado,display])
+  }, [idSeleccionado, display]);
 
   const getAdditionalData = async () => {
     let data1 = await getAdditionalbyType(1);
@@ -105,6 +111,34 @@ export default function EditAlumno({
     setEscolaridad(escol_[0].value);
   };
 
+  const pushAdds = (_type, _id) => {
+    let aux = [];
+    switch (_type) {
+      case 1:
+        /*  escol.map((m) => {
+          aux.push(m);
+        });
+        aux.push(getAdds(_type,_id));
+        setEscol(aux);*/
+        break;
+      case 2:
+        adicionales1.map((a) => {
+          aux.push(a);
+        });
+        aux.push(_id);
+        setAdicionales1(aux);
+        break;
+      case 3:
+        /* comed.map((com) => {
+          aux.push(com);
+        });
+        aux.push(getAdds(_type,_id));*/
+        break;
+      default:
+        break;
+    }
+  };
+
   const renderFooter = (name) => {
     return (
       <div>
@@ -116,7 +150,7 @@ export default function EditAlumno({
         <Button
           label="Cerrar"
           icon="pi pi-times"
-          onClick={() => closeEdit()}
+          onClick={() => cerrar()}
           className="p-button-secondary"
         />
       </div>
@@ -127,16 +161,25 @@ export default function EditAlumno({
     let candidate = await getAlumnoSelected();
     let _fullname = "";
     if (candidate) {
-        _fullname =  candidate.fullName.split(" ");
+      _fullname = candidate.fullName.split(" ");
       setINombre(_fullname[0]);
       setIApellido(_fullname[1]);
       setIDocumento(candidate.documentNumber);
       setILegajo(candidate.idNumber);
       setListaTitular(candidate.titularId);
-      console.log(candidate.titularNombre)
+      console.log(candidate.titularNombre);
+      candidate.additionalData.map((ad) => {
+        // console.log(getAdds(ad.type, ad._id));
+        console.log(ad.type, ad._id);
+        pushAdds(ad.type, ad._id);
+      });
     }
   };
 
+  const handleChangeAdicionales = (e) => {
+    setAdicionales1(e);
+    console.log("adicionales: " + adicionales1);
+  };
   const guardarAlumno = () => {
     const _id = iId;
     const _fullName = iNombre + " " + iApellido;
@@ -203,7 +246,7 @@ export default function EditAlumno({
               placeholder="Legajo"
               value={iLegajo}
               style={{ width: "250px" }}
-              onChange={(e) => setIDocumento(e.target.value)}
+              onChange={(e) => setILegajo(e.target.value)}
             />
           </div>
 
@@ -219,7 +262,7 @@ export default function EditAlumno({
             <MultiSelect
               value={adicionales1}
               options={adic}
-              onChange={(e) => setAdicionales1(e.value)}
+              onChange={(e) => handleChangeAdicionales(e.value)}
               style={{ width: "100px", minWidth: "15em" }}
               filter={true}
               filterPlaceholder="Buscar"
