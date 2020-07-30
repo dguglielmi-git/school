@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import ButtonM from "@material-ui/core/Button";
+import { Button } from "primereact/button";
 import Collapse from "@material-ui/core/Collapse";
 import TableRow from "@material-ui/core/TableRow";
 import TableHead from "@material-ui/core/TableHead";
@@ -17,6 +18,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ModalCobro from "./ModalFac/ModalCobro";
+import ModalRecibo from "./ModalRecibo/ModalRecibo";
 
 const useRowStyles = makeStyles({
   root: {
@@ -30,13 +32,19 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const [displayBasic, setDisplayBasic] = useState(false);
+  const [displayRecibo, setDisplayRecibo] = useState(false);
   const [clientSelected, setClientSelected] = useState([]);
   const classes = useRowStyles();
 
-  const openModal = (datos)=> {
-    setDisplayBasic(true);
+  const openModal = (datos) => {
     setClientSelected(datos);
-  }
+    setDisplayBasic(true);
+  };
+
+  const openModalRecibo = (datos) => {
+    setClientSelected(datos);
+    setDisplayRecibo(true);
+  };
 
   return (
     <React.Fragment>
@@ -45,15 +53,23 @@ function Row(props) {
         setDisplayBasic={setDisplayBasic}
         clientSelected={clientSelected}
       />
+      <ModalRecibo
+        displayBasic={displayRecibo}
+        setDisplayBasic={setDisplayRecibo}
+        clientSelected={clientSelected}
+        row={row}
+      />
       <TableRow className={classes.root}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+          {!row.isPayed && (
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          )}
         </TableCell>
         <TableCell component="th" scope="row">
           {row.studentData[0].fullName}
@@ -65,9 +81,26 @@ function Row(props) {
         <TableCell align="right">${row.total}</TableCell>
         <TableCell align="right">{row.isPayed ? "Pagada" : "Impaga"}</TableCell>
         <TableCell align="right">
-          <Button disabled={row.isPayed} variant="outlined" color="primary" onClick={() => openModal(row)}>
-            cobrar
-          </Button>
+          {row.isPayed ? (
+            <Button
+              variant="outlined"
+              className="p-button-success"
+              style={{ width: "120px", height: "37px" }}
+              color="primary"
+              onClick={() => openModalRecibo(row)}
+              label="VER RECIBO"
+            />
+          ) : (
+            <ButtonM
+              variant="outlined"
+              className="p-button-success"
+              style={{ width: "120px" }}
+              color="primary"
+              onClick={() => openModal(row)}
+            >
+              Cobrar
+            </ButtonM>
+          )}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -135,19 +168,6 @@ export default function CollapsibleTable(props) {
   };
   useEffect(() => {
     fetchBill();
-
-    // Update the document title using the browser API
-    // document.title = `You clicked ${count} times`;
-    // let rows = [
-    //   createData("Ariel Sandor", 159, 2806.0),
-    //   createData("Mariano Martino", 237, 2909.0),
-    //   createData("Mateo Teves", 262, 2416.0),
-    //   createData("Analia Sabatino", 305, 2773.7),
-    //   createData("Daniel Guglielmi", 356, 2616.0),
-    // ];
-    // props.data.forEach((item, i) => rows.push(createData(item.studentData.fullName, item.studentData.idNumber, item.total)));
-    // setRows(props.data);
-    // console.log(props.data);
   }, []);
 
   return (

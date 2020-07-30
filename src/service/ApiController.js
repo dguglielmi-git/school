@@ -20,10 +20,12 @@ const urlInsertStudent = "/api/insertStudent";        // Insert Student (POST)
 //Employee
 const urlGetEmployee = "/api/getEmployee";            // Get Employee (GET)
 const urlInsertEmployee = "/api/insertEmployee";      // Insert Employee (POST)
+const urlUpdateEmployee = "api/updateEmployee"        // Update Employee (POST)
 
 // Facturacion
 const urlUpdatePaymentInfo ="/api/updatePaymentInfo"; // Post
-
+const urlPayMonthlyBills = "/api/payMonthlyBills";    // Post
+const urlSendEmployeeSalaries = "/api/sendEmployeeSalaries";  // Post
 
 class ApiController extends Component {
   getTitulares(setListaTitulares) {
@@ -47,6 +49,32 @@ class ApiController extends Component {
     }).then((response) => {
       this.getTitulares(loadTitulares);
       showSuccess();
+      return response.json();
+    });
+  }
+
+  payMonthlyBills(data) {
+    const endpoint = `${url}${urlPayMonthlyBills}`;
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      console.log(response);
+      return response.json();
+    });
+  }
+
+  sendEmployeeSalaries(data){
+    const endpoint = `${url}${urlSendEmployeeSalaries}`;
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      console.log(response);
       return response.json();
     });
   }
@@ -97,6 +125,20 @@ class ApiController extends Component {
       body: JSON.stringify(data),
     }).then((response) => {
       this.getEmpleados(loadEmpleados);
+      showSuccess();
+      return response.json();
+    });
+  }
+
+  
+  updateEmployee(data, loadEmpleados, showSuccess) {
+    const endpoint = `${url}${urlUpdateEmployee}`;
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
       showSuccess();
       return response.json();
     });

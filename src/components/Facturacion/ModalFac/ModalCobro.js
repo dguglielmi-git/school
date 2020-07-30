@@ -1,5 +1,4 @@
 import "./ModalCobro.css";
-import ReactDOM from "react-dom";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";

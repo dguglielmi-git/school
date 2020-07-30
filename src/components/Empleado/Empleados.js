@@ -8,7 +8,8 @@ import { Calendar } from "primereact/calendar";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import ApiController from "../../service/ApiController";
-import EditEmpleado from './EditEmpleado'
+import EditEmpleado from "./EditEmpleado";
+import { InputNumber } from "primereact/inputnumber";
 
 export class Empleados extends Component {
   constructor() {
@@ -21,7 +22,7 @@ export class Empleados extends Component {
       headerDialog: "",
       messageDialog: "",
       flagDialog: "",
-      listado:[],
+      listado: [],
       listaEmpleado: null,
       listaEmpleados: [],
       editCandidate: null,
@@ -37,6 +38,8 @@ export class Empleados extends Component {
       iFechaAlta: "",
       dropdownPais: null,
       fechaAlta: null,
+      salario:null,
+      iCbu:null,
       paises: [
         { label: "País", value: null },
         { label: "Argentina", value: "Argentina" },
@@ -105,16 +108,14 @@ export class Empleados extends Component {
       });
     });
 
-
     this.setState((state) => ({
       ...this.state,
       listaEmpleados: structure,
     }));
   }
   closeEdit() {
-    this.setState({ displayEdit: false })
+    this.setState({ displayEdit: false });
   }
-
 
   getData(id) {
     let res = "";
@@ -122,13 +123,17 @@ export class Empleados extends Component {
       if (tit._id === id) {
         res = tit;
       }
-    })
+    });
     return res;
   }
 
   editContact() {
-    const resul = this.getData(this.state.listaEmpleado)
-    this.setState({ displayEdit: true, editCandidate: resul, iNombre: resul.fullName })
+    const resul = this.getData(this.state.listaEmpleado);
+    this.setState({
+      displayEdit: true,
+      editCandidate: resul,
+      iNombre: resul.fullName,
+    });
   }
 
   guardarEmpleado() {
@@ -146,6 +151,8 @@ export class Empleados extends Component {
     const _startDate =
       this.state.fechaAlta === null ? "11/11/1111" : this.state.fechaAlta;
     const _position = this.notNulls(this.state.dropdownPositions);
+    const _salary = this.notNulls(this.state.salario)
+    const _icbu = this.notNulls(this.state.iCbu)
 
     ApiController.insertEmpleado(
       {
@@ -157,6 +164,8 @@ export class Empleados extends Component {
         documentNumber: _documentNumber,
         position: _position,
         startDate: _startDate,
+        salary: _salary,
+        accountNumber: _icbu
       },
       this.loadEmpleados,
       this.showSuccess
@@ -165,10 +174,10 @@ export class Empleados extends Component {
 
   handleChange(event, nombre) {
     let _state = {
-      [`${nombre}`]: event.target.value
+      [`${nombre}`]: event.target.value,
     };
 
-    this.setState(_state)
+    this.setState(_state);
   }
 
   newClient() {
@@ -216,6 +225,8 @@ export class Empleados extends Component {
       newForm: false,
       iFechaAlta: null,
       iPosition: null,
+      salario:null,
+      iCbu: null
     });
   }
 
@@ -319,11 +330,11 @@ export class Empleados extends Component {
               />
               <EditEmpleado
                 display={this.state.displayEdit}
-                closeEdit={this.closeEdit} 
+                closeEdit={this.closeEdit}
                 showSuccess={this.showSuccess}
                 editCandidate={this.state.editCandidate}
               />
-               <Button
+              <Button
                 label="Editar"
                 icon="pi pi-user-edit"
                 style={{ marginRight: ".25em" }}
@@ -404,7 +415,6 @@ export class Empleados extends Component {
                     onChange={(e) => this.handleChange(e, "iProvincia")}
                   />
                 </div>
-
                 <div className="p-col-12 p-md-4">
                   <Dropdown
                     style={{ width: "250px" }}
@@ -416,6 +426,7 @@ export class Empleados extends Component {
                     autoWidth={false}
                   />
                 </div>
+
                 <div className="p-col-12 p-md-4">
                   <Dropdown
                     style={{ width: "300px" }}
@@ -433,6 +444,26 @@ export class Empleados extends Component {
                     style={{ width: "250px" }}
                     value={this.state.fechaAlta}
                     onChange={(e) => this.setState({ fechaAlta: e.value })}
+                  />
+                </div>
+                <div className="p-col-12 p-md-4">
+                  <InputNumber
+                  style={{width:'250px'}}
+                    value={this.state.salario}
+                    onChange={(e) => this.setState({ salario: e.value })}
+                    mode="currency"
+                    placeholder="Salario"
+                    currency="USD"
+                    locale="en-US"
+                  />
+                </div>
+
+                <div className="p-col-12 p-md-4">
+                  <InputText
+                    placeholder="CBU"
+                    value={this.state.iCbu}
+                    style={{ width: "300px" }}
+                    onChange={(e) => this.handleChange(e, "iCbu")}
                   />
                 </div>
               </div>

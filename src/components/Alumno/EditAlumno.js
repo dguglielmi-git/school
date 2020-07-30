@@ -12,7 +12,7 @@ import { InputText } from "primereact/inputtext";
 import ApiController from "../../service/ApiController";
 import { SelectButton } from "primereact/selectbutton";
 import { MultiSelect } from "primereact/multiselect";
-import { getAdditionalbyType } from '../../service/ApiController2'
+import { getAdditionalbyType } from "../../service/ApiController2";
 
 export default function EditAlumno({
   display,
@@ -152,10 +152,7 @@ export default function EditAlumno({
         onHide={() => closeEdit()}
         footer={renderFooter("display")}
       >
-        <div
-          className="p-grid"
-          style={{ paddingBottom: "50px", paddingTop: "25px" }}
-        >
+        <div className="p-grid" style={{ display: "flex", flexWrap: "wrap" }}>
           <div className="p-col-12 p-md-4">
             <InputText
               placeholder="Nombre"
@@ -176,14 +173,14 @@ export default function EditAlumno({
             <InputText
               placeholder="DNI"
               value={iDocumento}
-              style={{ width: "115px" }}
+              style={{ width: "250px" }}
               onChange={(e) => setIDocumento(e.target.value)}
             />
           </div>
 
           <div className="p-col-12 p-md-4">
             <Dropdown
-              style={{ width: "300px" }}
+              style={{ width: "250px" }}
               options={listaTitulares}
               value={listaTitular}
               placeholder="Titular"
@@ -196,7 +193,7 @@ export default function EditAlumno({
             <InputText
               placeholder="Legajo"
               value={iDocumento}
-              style={{ width: "115px" }}
+              style={{ width: "250px" }}
               onChange={(e) => setIDocumento(e.target.value)}
             />
           </div>
@@ -206,6 +203,7 @@ export default function EditAlumno({
             style={{
               display: "flex",
               flexWrap: "wrap",
+              flexDirection: "row",
               alignItems: "center",
             }}
           >
@@ -213,14 +211,14 @@ export default function EditAlumno({
               value={adicionales1}
               options={adic}
               onChange={(e) => setAdicionales1(e.value)}
-              style={{ width: "250px", minWidth: "15em" }}
+              style={{ width: "100px", minWidth: "15em" }}
               filter={true}
               filterPlaceholder="Buscar"
               placeholder="Adicionales"
             />
             <Button
               icon="pi pi-cog"
-              style={{ height: "27px", marginLeft: "10px" }}
+              style={{ width: "27px", height: "27px", marginLeft: "10px" }}
             />
           </div>
           <div className="p-col-12 p-md-4">
@@ -234,25 +232,30 @@ export default function EditAlumno({
               placeholder="Comedor"
             />
           </div>
-        </div>
-        <div className="p-col-12 p-md-4">
-          <div
-            className="p-grid"
-            style={{
-              width: "250px",
-              border: "0.4px solid lightgray",
-              borderRadius: "3px",
-              justifyContent: "center",
-              textAlign: "center",
-              paddingBottom: "15px",
-            }}
-          >
-            <h3>Escolaridad</h3>
-            <SelectButton
-              value={escolaridad}
-              options={escol}
-              onChange={(e) => setEscolaridad(e.value)}
-            />
+          <div className="p-col-12 p-md-4">
+            <div
+              className="p-grid"
+              style={{
+                display:'flex',
+                flexWrap:'wrap',
+                flexDirection:'row',
+                width: "250px",
+                border: "0.4px solid lightgray",
+                borderRadius: "3px",
+                justifyContent: "center",
+                textAlign: "center",
+                paddingBottom: "5px",
+              }}
+            >
+              <div>
+                <h3>Escolaridad</h3>
+                <SelectButton
+                  value={escolaridad}
+                  options={escol}
+                  onChange={(e) => setEscolaridad(e.value)}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </Dialog>
