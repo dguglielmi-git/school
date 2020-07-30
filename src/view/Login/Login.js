@@ -90,7 +90,7 @@ export default function Login(props) {
         .auth()
         .signInWithEmailAndPassword(usuario, password)
         .then(() => {
-          /*  var user = firebase.auth().currentUser;
+          /*       var user = firebase.auth().currentUser;
           if (user != null) {
             user.providerData.forEach(function (profile) {
               console.log("Sign-in provider: " + profile.providerId);
@@ -98,10 +98,10 @@ export default function Login(props) {
               console.log("  Name: " + profile.displayName);
               console.log("  Email: " + profile.email);
               console.log("  Photo URL: " + profile.photoURL);
-              if (profile.email === "asandor@uade.edu.ar") {
+              if (profile.email === "nsabatino@uade.edu.ar") {
                 user
                   .updateProfile({
-                    displayName: "Ariel Sandor",
+                    displayName: "Analía Sabatino",
                   })
                   .then(() => {
                     console.log("Ok");
