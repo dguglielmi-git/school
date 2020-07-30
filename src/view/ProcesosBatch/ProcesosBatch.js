@@ -89,18 +89,7 @@ export class ProcesosBatch extends Component {
                 }}
               >
                 Procesar Liquidación de Sueldos
-              </div>
-              <div>
-                <Dropdown
-                  style={{ width: "120px" }}
-                  options={this.state.meses}
-                  value={this.state.dropdownMes}
-                  onChange={(event) =>
-                    this.setState({ dropdownMes: event.value })
-                  }
-                  autoWidth={false}
-                />
-              </div>
+              </div>              
               <div>
                 <Button
                   label="Enviar"
