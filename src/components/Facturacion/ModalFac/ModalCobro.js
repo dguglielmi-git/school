@@ -45,7 +45,7 @@ export default function ModalCobro({
         <Button
           label="Enviar"
           icon="pi pi-check"
-          onClick={() => onHide(stateMethod)}
+          onClick={() => processPayment(stateMethod)}
         />
         <Button
           label="Cerrar"
@@ -61,7 +61,7 @@ export default function ModalCobro({
     ApiController.updateFacturacion(
       {
         payWith: 3,
-        accountNumber: 987394875938475,
+        accountNumber: bankAccount,
       },
       null
     );
@@ -79,13 +79,14 @@ export default function ModalCobro({
     );
   };
 
-  const processPayment = () => {
-      if (activeIndex === 0) {
-          debitBankAccount();
-      } else {
-          creditCardPayment();
-      }
-  }
+  const processPayment = (stateMethod) => {
+    if (activeIndex === 0) {
+      debitBankAccount();
+    } else {
+      creditCardPayment();
+    }
+    onHide(stateMethod);
+  };
 
   return (
     <div className="dialog-demo">

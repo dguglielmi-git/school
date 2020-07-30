@@ -100,7 +100,7 @@ class ApiController extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     }).then((response) => {
-      showSuccess();
+     // showSuccess();
       return response.json();
     });
   }
