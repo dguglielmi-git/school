@@ -219,7 +219,7 @@ export default function EditAlumno({
               placeholder="Adicionales"
             />
             <Button
-              icon="pi pi-plus"
+              icon="pi pi-cog"
               style={{ height: "27px", marginLeft: "10px" }}
             />
           </div>
