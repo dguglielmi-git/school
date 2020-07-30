@@ -114,7 +114,6 @@ export class Alumnos extends Component {
       ...this.state,
       listaAlumnos: structure,
     }));
-    console.log("Alumnos cargados");
   }
 
   guardarAlumno() {

@@ -25,7 +25,8 @@ export class TableAlumno extends Component {
       selectedStatus: null,
       listaTitulares: [],
       display: false,
-      selectedItem: {},
+      editCandidate: null,
+      idSeleccionado: null,
     };
 
     //body cells
@@ -46,6 +47,14 @@ export class TableAlumno extends Component {
     this.loadTitulares = this.loadTitulares.bind(this);
     this.actionBodyTemplate = this.actionBodyTemplate.bind(this);
     this.closeEdit = this.closeEdit.bind(this);
+  }
+
+  getAlumnoById(__id) {
+    this.state.customers.forEach((a) => {
+      if (a._id === __id) {
+        console.log(a);
+      }
+    });
   }
 
   loadAlumnos(datos) {
@@ -102,17 +111,19 @@ export class TableAlumno extends Component {
     );
   }
 
-  modifyPupil() {
-    this.setState({ display: true });
+  modifyPupil(idrecibido) {
+    if (idrecibido === this.state.idSeleccionado) {
+      this.setState({ display: true });
+    }
   }
 
-  actionBodyTemplate() {
+  actionBodyTemplate(dato) {
     return (
       <Button
         type="button"
         icon="pi pi-cog"
         className="p-button-secondary"
-        onClick={() => this.modifyPupil()}
+        onClick={() => this.modifyPupil(dato._id)}
       ></Button>
     );
   }
@@ -162,9 +173,9 @@ export class TableAlumno extends Component {
   }
 
   handleSelection(e) {
-    this.setState({ selectedCustomers: e.value });
-    console.log(e.value.fullName);
-    this.setState({ selectedItem: e.value });
+    this.setState({ editCandidate: e.value });
+    this.setState({ idSeleccionado: e.value._id });
+    //this.getAlumnoById(e.value._id)
   }
 
   render() {
@@ -177,7 +188,7 @@ export class TableAlumno extends Component {
           display={this.state.display}
           closeEdit={this.closeEdit}
           showSuccess={this.showSuccess}
-          editCandidate={this.state.editCandidate}
+          idSeleccionado={this.state.idSeleccionado}
         />
         <DataTable
           ref={(el) => (this.dt = el)}
@@ -188,7 +199,7 @@ export class TableAlumno extends Component {
           dataKey="_id"
           rowHover
           globalFilter={this.state.globalFilter}
-          selection={this.state.selectedCustomers}
+          selection={this.state.editCandidate}
           onSelectionChange={
             (e) => this.handleSelection(e)
             // console.log('seleccionado: ' + e.value)
@@ -232,7 +243,7 @@ export class TableAlumno extends Component {
             filterPlaceholder="Buscar por Legajo"
           />
           <Column
-            body={this.actionBodyTemplate}
+            body={(e) => this.actionBodyTemplate(e)}
             headerStyle={{ width: "8em", textAlign: "center" }}
             bodyStyle={{ textAlign: "center", overflow: "visible" }}
           />

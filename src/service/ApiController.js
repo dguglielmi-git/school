@@ -20,7 +20,7 @@ const urlInsertStudent = "/api/insertStudent";        // Insert Student (POST)
 //Employee
 const urlGetEmployee = "/api/getEmployee";            // Get Employee (GET)
 const urlInsertEmployee = "/api/insertEmployee";      // Insert Employee (POST)
-const urlUpdateEmployee = "api/updateEmployee"        // Update Employee (POST)
+const urlUpdateEmployee = "/api/updateEmployee"        // Update Employee (POST)
 
 // Facturacion
 const urlUpdatePaymentInfo ="/api/updatePaymentInfo"; // Post
@@ -131,7 +131,7 @@ class ApiController extends Component {
   }
 
   
-  updateEmployee(data, loadEmpleados, showSuccess) {
+  updateEmployee(data, showSuccess) {
     const endpoint = `${url}${urlUpdateEmployee}`;
     fetch(endpoint, {
       method: "POST",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import "primereact/resources/themes/nova-light/theme.css";
@@ -10,11 +10,11 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import ApiController from "../../service/ApiController";
 import { InputNumber } from "primereact/inputnumber";
+import { Growl } from "primereact/growl";
 
 export default function EditEmpleado({
   display,
   closeEdit,
-  showSuccess,
   editCandidate,
 }) {
   const [iId, setIid] = useState("");
@@ -35,6 +35,7 @@ export default function EditEmpleado({
     { label: "Posición", value: null },
     { label: "Profesor Titular", value: "Profesor Titular" },
     { label: "Profesor Suplente", value: "Profesor Suplente" },
+    { label: "Profesor Ayudante", value: "Profesor Ayudante" },
     { label: "Director", value: "Director" },
     { label: "Asistente Profesor", value: "Asistente Profesor" },
   ]);
@@ -46,7 +47,7 @@ export default function EditEmpleado({
     { label: "Mexico", value: "Mexico" },
     { label: "Venezuela", value: "Venezuela" },
   ]);
-
+  const refGrowl = useRef();
   useEffect(() => {
     loadData();
   }, [editCandidate]);
@@ -69,6 +70,7 @@ export default function EditEmpleado({
     );
   };
 
+ 
   const notNulls = (value) => {
     return value === null || value === undefined ? "" : value;
   };
@@ -86,6 +88,7 @@ export default function EditEmpleado({
       setIDireccion(_address[0]);
       setIProvincia(_address[1]);
       setDropdownPais(_address[2].trim());
+      setDropdownPositions(candidate.position.trim())
       setICuil(candidate.cuil);
       setIDocumento(candidate.documentNumber);
       setIPhone(candidate.phoneNumber);
@@ -93,6 +96,16 @@ export default function EditEmpleado({
       setICbu(candidate.accountNumber);
     }
   };
+
+  const showSuccess = () => {
+    let msg = {
+      severity: "success",
+      summary: "Actualización de Empleado",
+      detail: "El Empleado ha sido actualizado en el Sistema.",
+    };
+    refGrowl.current.show(msg);
+    closeEdit();
+  }
 
   const guardarEmployee = () => {
     const __id = iId;
@@ -127,13 +140,13 @@ export default function EditEmpleado({
         salary: _salary,
         accountNumber: _accountNumber,
       },
-      this.loadEmpleados,
-      this.showSuccess
+      showSuccess
     );
   };
 
   return (
     <div className="dialog-demo">
+      <Growl ref={refGrowl} style={{ marginTop: "75px" }} />
       <Dialog
         header="Editar Empleado"
         visible={display}
@@ -146,6 +159,7 @@ export default function EditEmpleado({
             display: "flex",
             flexWrap: "wrap",
             alignContent: "flex-start",
+            height:'250px'
           }}
         >
           <div className="p-col-12 p-md-4">
@@ -218,6 +232,7 @@ export default function EditEmpleado({
               value={dropdownPais}
               onChange={(event) => setDropdownPais(event.value)}
               autoWidth={false}
+              scrollHeight='110px'
             />
           </div>
           <div className="p-col-12 p-md-4">
@@ -227,6 +242,7 @@ export default function EditEmpleado({
               value={dropdownPositions}
               onChange={(event) => setDropdownPositions(event.value)}
               autoWidth={false}
+              scrollHeight='110px'
             />
           </div>
           <div className="p-col-12 p-md-4">

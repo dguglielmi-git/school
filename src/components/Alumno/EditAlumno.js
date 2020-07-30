@@ -18,20 +18,17 @@ export default function EditAlumno({
   display,
   closeEdit,
   showSuccess,
-  editCandidate,
+  customers,
+  idSeleccionado,
 }) {
   const [iId, setIid] = useState("");
   const [iNombre, setINombre] = useState("");
   const [iApellido, setIApellido] = useState("");
-  const [iEmail, setIEmail] = useState("");
-  const [iDireccion, setIDireccion] = useState("");
-  const [iProvincia, setIProvincia] = useState("");
-  const [iPhone, setIPhone] = useState("");
-  const [iCuil, setICuil] = useState("");
   const [iDocumento, setIDocumento] = useState("");
-  const [dropdownPais, setDropdownPais] = useState(null);
+  const [iLegajo, setILegajo] = useState("");
   const [listaTitulares, setListaTitulares] = useState([]);
-  const [listaTitular, setListaTitular] = useState(null);
+  const [listaTitular, setListaTitular] = useState('');
+  const [alumnos, setAlumnos] = useState([]);
 
   const [adicionales1, setAdicionales1] = useState([]);
   const [comedor1, setComedor1] = useState([]);
@@ -51,11 +48,40 @@ export default function EditAlumno({
     setListaTitulares(structure);
   };
 
+  const loadAlumnos = (datos) => {
+    let _data = [];
+
+    datos.forEach((e) => {
+      _data.push({
+        ...e,
+        titularNombre: e.titularData[0].fullName.trim(),
+      });
+    });
+
+    setAlumnos(_data);
+  };
+
+  const getAlumnoSelected = async () => {
+    let alumno = null;
+    alumnos.forEach((al) => {
+      if (al._id === idSeleccionado) {
+        alumno = al;
+      }
+    })
+    return alumno;
+    
+  }
   useEffect(() => {
-    loadData();
+    ApiController.getAlumnos(loadAlumnos);
     ApiController.getTitulares(loadTitulares);
     getAdditionalData();
-  }, [editCandidate]);
+  }, []);
+
+  useEffect(() => {
+    if (display) {
+      loadData();
+    }
+  },[idSeleccionado,display])
 
   const getAdditionalData = async () => {
     let data1 = await getAdditionalbyType(1);
@@ -77,10 +103,6 @@ export default function EditAlumno({
     setComed(comed_);
     setEscol(escol_);
     setEscolaridad(escol_[0].value);
-
-    /*this.setState({ adic: adic, comed: comed, escol: escol });
-    this.setState({ escolaridad: escol[0].value })
-    */
   };
 
   const renderFooter = (name) => {
@@ -89,7 +111,7 @@ export default function EditAlumno({
         <Button
           label="Guardar"
           icon="pi pi-save"
-          onClick={() => guardarTitular()}
+          onClick={() => guardarAlumno()}
         />
         <Button
           label="Cerrar"
@@ -101,42 +123,29 @@ export default function EditAlumno({
     );
   };
 
-  const loadData = () => {
-    let candidate = editCandidate;
-
+  const loadData = async () => {
+    let candidate = await getAlumnoSelected();
+    let _fullname = "";
     if (candidate) {
-      let _fullname = candidate.fullName.split(" ");
-      let _address = candidate.address.split(",");
-      setIid(candidate._id);
+        _fullname =  candidate.fullName.split(" ");
       setINombre(_fullname[0]);
       setIApellido(_fullname[1]);
-      setIEmail(candidate.email);
-      setIDireccion(_address[0]);
-      setIProvincia(_address[1]);
-      setDropdownPais(_address[2].trim());
-      setICuil(candidate.cuil);
       setIDocumento(candidate.documentNumber);
-      setIPhone(candidate.phoneNumber);
+      setILegajo(candidate.idNumber);
+      setListaTitular(candidate.titularId);
+      console.log(candidate.titularNombre)
     }
   };
 
-  const guardarTitular = () => {
+  const guardarAlumno = () => {
     const _id = iId;
     const _fullName = iNombre + " " + iApellido;
-    const _email = notNulls(iEmail);
-    const _address = iDireccion + ", " + iProvincia + ", " + dropdownPais;
-    const _phoneNumber = notNulls(iPhone);
-    const _cuil = notNulls(iCuil);
     const _documentNumber = notNulls(iDocumento);
 
     ApiController.updateTitular(
       {
         _id: _id,
         fullName: _fullName,
-        email: _email,
-        address: _address,
-        phoneNumber: _phoneNumber,
-        cuil: _cuil,
         documentNumber: _documentNumber,
       },
       showSuccess
@@ -192,7 +201,7 @@ export default function EditAlumno({
           <div className="p-col-12 p-md-4">
             <InputText
               placeholder="Legajo"
-              value={iDocumento}
+              value={iLegajo}
               style={{ width: "250px" }}
               onChange={(e) => setIDocumento(e.target.value)}
             />
@@ -236,9 +245,9 @@ export default function EditAlumno({
             <div
               className="p-grid"
               style={{
-                display:'flex',
-                flexWrap:'wrap',
-                flexDirection:'row',
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
                 width: "250px",
                 border: "0.4px solid lightgray",
                 borderRadius: "3px",
