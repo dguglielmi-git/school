@@ -10,6 +10,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { SelectButton } from "primereact/selectbutton";
 import ApiController from "../../service/ApiController";
 import { getAdditionalbyType } from "../../service/ApiController2";
+import DialogAdicional from "./Dialog/AddAdicional";
 
 export class Alumnos extends Component {
   constructor() {
@@ -37,6 +38,7 @@ export class Alumnos extends Component {
       escol: [],
       adic: [],
       comed: [],
+      addAdicional: false,
     };
     this.newClient = this.newClient.bind(this);
     this.loadAlumnos = this.loadAlumnos.bind(this);
@@ -44,6 +46,13 @@ export class Alumnos extends Component {
     this.toggleDialog = this.toggleDialog.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.loadTitulares = this.loadTitulares.bind(this);
+    this.showSuccessGen = this.showSuccessGen.bind(this);
+    this.toggleAddAdicional = this.toggleAddAdicional.bind(this);
+    this.insertNewAdditional = this.insertNewAdditional.bind(this);
+  }
+
+  toggleAddAdicional(status) {
+    this.setState({ addAdicional: status });
   }
 
   showSuccess() {
@@ -56,6 +65,15 @@ export class Alumnos extends Component {
     this.cleanForm();
   }
 
+  showSuccessGen(_summary, _detail) {
+    let msg = {
+      severity: "susccess",
+      summary: _summary,
+      detail: _detail,
+    };
+    this.growl.show(msg);
+  }
+
   componentDidMount() {
     ApiController.getAlumnos(this.loadAlumnos);
     ApiController.getTitulares(this.loadTitulares);
@@ -64,6 +82,23 @@ export class Alumnos extends Component {
 
   notNulls(value) {
     return value === null || value === undefined ? "" : value;
+  }
+
+  insertNewAdditional(__nombre, __monto) {
+    try {
+      let result = ApiController.insertAdditional(
+        {
+          name: __nombre,
+          price: __monto,
+          type: 2,
+        },
+        this.getAdditionalData,
+        this.showSuccessGen
+      );
+      console.log("Resultado de ejecucion de insertNewAdditional: " + result);
+    } catch (err) {
+      console.log("Error al intentar Insertar Additional: " + err);
+    }
   }
 
   async getAdditionalData() {
@@ -269,6 +304,11 @@ export class Alumnos extends Component {
     return (
       <div className="p-grid">
         <Growl ref={(el) => (this.growl = el)} style={{ marginTop: "75px" }} />
+        <DialogAdicional
+          display={this.state.addAdicional}
+          setDisplay={this.toggleAddAdicional}
+          actualizar={this.insertNewAdditional}
+        />
         <div className="p-col-12">
           <Dialog
             header={this.state.headerDialog}
@@ -371,8 +411,9 @@ export class Alumnos extends Component {
                     placeholder="Adicionales"
                   />
                   <Button
-                    icon="pi pi-cog"
+                    icon="pi pi-plus"
                     style={{ height: "27px", marginLeft: "10px" }}
+                    onClick={() => this.toggleAddAdicional(true)}
                   />
                 </div>
                 <div className="p-col-12 p-md-4">

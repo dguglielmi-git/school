@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import "primereact/resources/themes/nova-light/theme.css";
@@ -13,6 +13,8 @@ import ApiController from "../../service/ApiController";
 import { SelectButton } from "primereact/selectbutton";
 import { MultiSelect } from "primereact/multiselect";
 import { getAdditionalbyType } from "../../service/ApiController2";
+import DialogAdicional from "./Dialog/AddAdicional";
+import { Growl } from "primereact/growl";
 
 export default function EditAlumno({
   display,
@@ -36,7 +38,9 @@ export default function EditAlumno({
   const [comed, setComed] = useState([]);
   const [escolaridad, setEscolaridad] = useState(null);
   const [escol, setEscol] = useState([]);
-  const [tempo, setTempo] = useState([]);
+  const [displayAdicional, setDisplayAdicional] = useState(false);
+
+  const growlRef = useRef();
 
   const loadTitulares = (lista) => {
     let structure = [];
@@ -89,6 +93,32 @@ export default function EditAlumno({
     }
   }, [idSeleccionado, display]);
 
+  const insertNewAdditional = (__nombre, __monto) => {
+    try {
+      let result = ApiController.insertAdditional(
+        {
+          name: __nombre,
+          price: __monto,
+          type: 2,
+        },
+        getAdditionalData, 
+        showSuccessGen
+      );
+      console.log("Resultado de ejecucion de insertNewAdditional: " + result);
+    } catch (err) {
+      console.log("Error al intentar Insertar Additional: " + err);
+    }
+  };
+
+  const showSuccessGen = (_summary, _detail) =>{
+    let msg = {
+      severity: "susccess",
+      summary: _summary,
+      detail: _detail,
+    };
+    growlRef.current.show(msg);
+  }
+
   const getAdditionalData = async () => {
     let data1 = await getAdditionalbyType(1);
     let data2 = await getAdditionalbyType(2);
@@ -96,9 +126,11 @@ export default function EditAlumno({
     let escol_ = [];
     let adic_ = [];
     let comed_ = [];
+
     data1.forEach((element) =>
       escol_.push({ label: element.name, value: element._id })
     );
+
     data2.forEach((element) =>
       adic_.push({ label: element.name, value: element._id })
     );
@@ -113,15 +145,10 @@ export default function EditAlumno({
 
   const pushAdds = (_type, _id) => {
     let aux = [];
+
     switch (_type) {
       case 1:
         setEscolaridad(_id);
-
-        /*  escol.map((m) => {
-          aux.push(m);
-        });
-        aux.push(getAdds(_type,_id));
-        setEscol(aux);*/
         break;
       case 2:
         aux = adicionales1;
@@ -199,6 +226,7 @@ export default function EditAlumno({
 
   return (
     <div className="dialog-demo">
+      <Growl ref={growlRef} style={{ marginTop: "75px" }} />
       <Dialog
         header="Editar Alumno"
         visible={display}
@@ -206,6 +234,11 @@ export default function EditAlumno({
         onHide={() => closeEdit()}
         footer={renderFooter("display")}
       >
+        <DialogAdicional
+          display={displayAdicional}
+          setDisplay={setDisplayAdicional}
+          actualizar={insertNewAdditional}
+        />
         <div className="p-grid" style={{ display: "flex", flexWrap: "wrap" }}>
           <div className="p-col-12 p-md-4">
             <InputText
@@ -271,7 +304,7 @@ export default function EditAlumno({
               placeholder="Adicionales"
             />
             <Button
-              icon="pi pi-cog"
+              icon="pi pi-plus"
               style={{ width: "27px", height: "27px", marginLeft: "10px" }}
             />
           </div>
