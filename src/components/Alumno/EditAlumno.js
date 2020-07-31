@@ -306,6 +306,7 @@ export default function EditAlumno({
             <Button
               icon="pi pi-plus"
               style={{ width: "27px", height: "27px", marginLeft: "10px" }}
+              onClick={() => setDisplayAdicional(true)}
             />
           </div>
           <div className="p-col-12 p-md-4">

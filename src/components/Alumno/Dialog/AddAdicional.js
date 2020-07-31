@@ -37,8 +37,12 @@ export default function DialogAdicionales({ display, setDisplay, actualizar }) {
   };
 
   const guardar =() => {
+    if (nombre !== "" && monto !== "") {
     actualizar(nombre,monto);
     setDisplay(false);
+    } else {
+      alert('Debe ingresar valores en ambos campos para poder guardar')
+    }
   }
 
   const renderFooter = (stateMethod) => {
