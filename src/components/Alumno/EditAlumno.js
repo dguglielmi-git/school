@@ -36,6 +36,7 @@ export default function EditAlumno({
   const [comed, setComed] = useState([]);
   const [escolaridad, setEscolaridad] = useState(null);
   const [escol, setEscol] = useState([]);
+  const [tempo, setTempo] = useState([]);
 
   const loadTitulares = (lista) => {
     let structure = [];
@@ -52,8 +53,7 @@ export default function EditAlumno({
     setAdicionales1([]);
     setComedor1([]);
     closeEdit();
-
-  }
+  };
   const loadAlumnos = (datos) => {
     let _data = [];
 
@@ -115,6 +115,8 @@ export default function EditAlumno({
     let aux = [];
     switch (_type) {
       case 1:
+        setEscolaridad(_id);
+
         /*  escol.map((m) => {
           aux.push(m);
         });
@@ -122,17 +124,12 @@ export default function EditAlumno({
         setEscol(aux);*/
         break;
       case 2:
-        adicionales1.map((a) => {
-          aux.push(a);
-        });
+        aux = adicionales1;
         aux.push(_id);
-        setAdicionales1(aux);
         break;
       case 3:
-        /* comed.map((com) => {
-          aux.push(com);
-        });
-        aux.push(getAdds(_type,_id));*/
+        aux = comedor1;
+        aux.push(_id);
         break;
       default:
         break;
@@ -178,8 +175,13 @@ export default function EditAlumno({
 
   const handleChangeAdicionales = (e) => {
     setAdicionales1(e);
-    console.log("adicionales: " + adicionales1);
   };
+
+  const handleChangeEscolaridad = (val) => {
+    setEscolaridad(val);
+    console.log(val);
+  };
+
   const guardarAlumno = () => {
     const _id = iId;
     const _fullName = iNombre + " " + iApellido;
@@ -304,7 +306,7 @@ export default function EditAlumno({
                 <SelectButton
                   value={escolaridad}
                   options={escol}
-                  onChange={(e) => setEscolaridad(e.value)}
+                  onChange={(e) => handleChangeEscolaridad(e.value)}
                 />
               </div>
             </div>

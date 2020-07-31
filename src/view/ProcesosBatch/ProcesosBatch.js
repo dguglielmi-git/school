@@ -27,11 +27,15 @@ export class ProcesosBatch extends Component {
     };
   }
   runMonthly() {
-    ApiController.runMonthly({ instalment: this.state.dropdownMes });
+    ApiController.runMonthly({ instalment: this.state.dropdownMes }).then((res) => {
+      console.log(res)
+    });
   }
 
   sendEmployeeSalaries() {
-    ApiController.sendEmployeeSalaries();
+    ApiController.sendEmployeeSalaries().then((res) => {
+      console.log(res);
+    });
   }
 
   render() {

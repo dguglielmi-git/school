@@ -112,8 +112,12 @@ export class TableAlumno extends Component {
   }
 
   modifyPupil(idrecibido) {
-    if (idrecibido === this.state.idSeleccionado) {
-      this.setState({ display: true });
+    try {
+      if (idrecibido === this.state.idSeleccionado) {
+        this.setState({ display: true });
+      }
+    } catch (ex) {
+      console.log("Error al intentar modificar Alumno: " + ex);
     }
   }
 
@@ -173,9 +177,12 @@ export class TableAlumno extends Component {
   }
 
   handleSelection(e) {
-    this.setState({ editCandidate: e.value });
-    this.setState({ idSeleccionado: e.value._id });
-    //this.getAlumnoById(e.value._id)
+    try {
+      this.setState({ editCandidate: e.value });
+      this.setState({ idSeleccionado: e.value._id });
+    } catch (ex) {
+      console.log("Error al intentar cargar ID de Alumno seleccionado: " + ex);
+    }
   }
 
   render() {

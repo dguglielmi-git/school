@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,6 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { InputTextarea } from "primereact/inputtextarea";
 
 const TAX_RATE = 0.07;
 
@@ -20,12 +21,12 @@ function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
-
 export default function SpanningTable({ row }) {
   const classes = useStyles();
-
   return (
-    <div style={{ display: "flex", flexWrap:'wrap',justifyContent: "center" }}>
+    <div
+      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+    >
       <p style={{ fontWeight: "bold", fontSize: "16px" }}>
         COMPROBANTE DE PAGO DE FACTURA.
       </p>
@@ -71,6 +72,15 @@ export default function SpanningTable({ row }) {
             </TableBody>
           </Table>
         </TableContainer>
+      </div>
+      <div>
+        <p>Respuesta de comprobante de pago.</p>
+        <InputTextarea
+          rows={5}
+          cols={70}
+          value={row.responseData}
+          autoResize={true}
+        />
       </div>
     </div>
   );

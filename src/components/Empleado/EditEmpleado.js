@@ -136,7 +136,6 @@ export default function EditEmpleado({
         cuil: _cuil,
         documentNumber: _documentNumber,
         position: _position,
-        startDate: _startDate,
         salary: _salary,
         accountNumber: _accountNumber,
       },
