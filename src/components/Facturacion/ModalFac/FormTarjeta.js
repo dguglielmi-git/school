@@ -5,6 +5,7 @@ import "primeflex/primeflex.css";
 import "./ModalCobro.css";
 import React, { useState, useEffect } from "react";
 import { InputMask } from "primereact/inputmask";
+import { InputText } from "primereact/inputtext";
 
 export default function FormTarjeta({
   creditCardNumber,
@@ -13,6 +14,7 @@ export default function FormTarjeta({
   setCvv,
   expDate,
   setExpDate,
+  clientSelected
 }) {
   return (
     <div>
@@ -21,7 +23,7 @@ export default function FormTarjeta({
           <span className="p-float-label spanSt">
             <InputMask
               id="float-mask"
-              mask="9999-9999-9999-9999"
+              mask="9999999999999999"
               value={creditCardNumber}
               onChange={(e) => setCreditCardNumber(e.value)}
             />
@@ -29,9 +31,8 @@ export default function FormTarjeta({
           </span>
 
           <span className="p-float-label spanSt">
-            <InputMask
+            <InputText
               id="float-mask"
-              mask="9999"
               value={cvv}
               onChange={(e) => setCvv(e.value)}
             />
@@ -41,7 +42,7 @@ export default function FormTarjeta({
           <span className="p-float-label spanSt">
             <InputMask
               id="float-mask"
-              mask="99-99"
+              mask="9999"
               value={expDate}
               onChange={(e) => setExpDate(e.value)}
             />

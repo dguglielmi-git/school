@@ -55,6 +55,7 @@ export class Alumnos extends Component {
     this.setState({ addAdicional: status });
   }
 
+  /**DRY */
   showSuccess() {
     let msg = {
       severity: "success",
@@ -65,6 +66,7 @@ export class Alumnos extends Component {
     this.cleanForm();
   }
 
+  /**DRY */
   showSuccessGen(_summary, _detail) {
     let msg = {
       severity: "susccess",
@@ -151,6 +153,7 @@ export class Alumnos extends Component {
     }));
   }
 
+  /**TTI */
   guardarAlumno() {
     const _fullName = this.state.iNombre + " " + this.state.iApellido;
     const _documentNumber = this.notNulls(this.state.iDocumento);
@@ -189,6 +192,7 @@ export class Alumnos extends Component {
     this.setState(_state);
   }
 
+  /**DRY */
   newClient() {
     this.setState((state) => ({
       ...this.state,
@@ -198,7 +202,7 @@ export class Alumnos extends Component {
       display: true,
     }));
   }
-
+  /**DRY */
   cancelNewClient() {
     this.setState((state) => ({
       ...this.state,
@@ -209,6 +213,7 @@ export class Alumnos extends Component {
     }));
   }
 
+  /**DRY */
   saveAlumno() {
     this.setState((state) => ({
       ...this.state,
@@ -233,7 +238,7 @@ export class Alumnos extends Component {
       escolaridad: null,
     });
   }
-
+  /** TTI */
   toggleDialog(selec) {
     if (selec) {
       switch (this.state.flagDialog) {
@@ -270,22 +275,6 @@ export class Alumnos extends Component {
   }
 
   render() {
-    /**
-     * Constant for Dialog
-     */
-    const adicionales = [
-      { label: "Idioma", value: "sdfsdfsd" },
-      { label: "Teatro", value: "Teatro" },
-      { label: "Deportes", value: "Deportes" },
-      { label: "Taller", value: "Taller" },
-    ];
-
-    const comedor = [
-      { label: "Almuerzo", value: "Almuerzo" },
-      { label: "Vianda Media Mañana", value: "Vianda Media Mañana" },
-      { label: "Merienda", value: "Merienda" },
-    ];
-
     const dialogFooter = (
       <div>
         <Button

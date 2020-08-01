@@ -26,7 +26,6 @@ export default function EditEmpleado({
   const [iPhone, setIPhone] = useState("");
   const [iCuil, setICuil] = useState("");
   const [iDocumento, setIDocumento] = useState("");
-  const [fechaAlta, setFechaAlta] = useState("");
   const [dropdownPais, setDropdownPais] = useState(null);
   const [iSalario, setISalario] = useState(null);
   const [iCbu, setICbu] = useState(null);
@@ -70,7 +69,6 @@ export default function EditEmpleado({
     );
   };
 
- 
   const notNulls = (value) => {
     return value === null || value === undefined ? "" : value;
   };
@@ -120,8 +118,6 @@ export default function EditEmpleado({
     const _phoneNumber = notNulls(iPhone);
     const _cuil = notNulls(iCuil);
     const _documentNumber = notNulls(iDocumento);
-    const _startDate =
-      fechaAlta === null ? "11/11/1111" : fechaAlta;
     const _position = notNulls(dropdownPositions);
     const _salary = notNulls(iSalario);
     const _accountNumber = iCbu;

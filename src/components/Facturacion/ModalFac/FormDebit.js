@@ -4,8 +4,7 @@ import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "./ModalCobro.css";
 import React from "react";
-import { InputMask } from "primereact/inputmask";
-
+import { InputNumber } from "primereact/inputnumber";
 export default function FormDebit({
   bankAccount,
   setBankAccount
@@ -17,13 +16,13 @@ export default function FormDebit({
       <div className="p-grid p-fluid mainDiv">
         <div className="p-col-12 p-md-4 secondDiv">
           <span className="p-float-label spanSt">
-            <InputMask
-              id="float-mask"
-              mask="9999-9999-9999-9999-99"
-              value={bankAccount}
-              onChange={(e) => setBankAccount(e.value)}
-            />
-            <label htmlFor="float-mask">Número de Cuenta</label>
+            
+            <InputNumber
+                    placeholder="Número de Cuenta"
+                    value={bankAccount}
+                    style={{ width: "250px" }}
+                    onChange={(e) => setBankAccount(e.value)}
+                  />
           </span>
         </div>
       </div>

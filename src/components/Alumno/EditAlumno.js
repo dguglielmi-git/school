@@ -20,7 +20,6 @@ export default function EditAlumno({
   display,
   closeEdit,
   showSuccess,
-  customers,
   idSeleccionado,
 }) {
   const [iId, setIid] = useState("");
@@ -58,16 +57,15 @@ export default function EditAlumno({
     setComedor1([]);
     closeEdit();
   };
+
   const loadAlumnos = (datos) => {
     let _data = [];
-
     datos.forEach((e) => {
       _data.push({
         ...e,
         titularNombre: e.titularData[0].fullName.trim(),
       });
     });
-
     setAlumnos(_data);
   };
 
@@ -101,7 +99,7 @@ export default function EditAlumno({
           price: __monto,
           type: 2,
         },
-        getAdditionalData, 
+        getAdditionalData,
         showSuccessGen
       );
       console.log("Resultado de ejecucion de insertNewAdditional: " + result);
@@ -110,14 +108,15 @@ export default function EditAlumno({
     }
   };
 
-  const showSuccessGen = (_summary, _detail) =>{
+  /** DRY */
+  const showSuccessGen = (_summary, _detail) => {
     let msg = {
       severity: "susccess",
       summary: _summary,
       detail: _detail,
     };
     growlRef.current.show(msg);
-  }
+  };
 
   const getAdditionalData = async () => {
     let data1 = await getAdditionalbyType(1);
@@ -193,8 +192,6 @@ export default function EditAlumno({
       setListaTitular(candidate.titularId);
       console.log(candidate.titularNombre);
       candidate.additionalData.map((ad) => {
-        // console.log(getAdds(ad.type, ad._id));
-        console.log(ad.type, ad._id);
         pushAdds(ad.type, ad._id);
       });
     }
@@ -206,7 +203,6 @@ export default function EditAlumno({
 
   const handleChangeEscolaridad = (val) => {
     setEscolaridad(val);
-    console.log(val);
   };
 
   const guardarAlumno = () => {
@@ -221,6 +217,39 @@ export default function EditAlumno({
         documentNumber: _documentNumber,
       },
       showSuccess
+    );
+  };
+
+  const renderInput = (_placeholder, _value, _func) => {
+    return (
+      <div className="p-col-12 p-md-4">
+        <InputText
+          placeholder={_placeholder}
+          value={_value}
+          style={{ width: "250px" }}
+          onChange={(e) => _func(e.target.value)}
+        />
+      </div>
+    );
+  };
+
+  const renderMultiSelect = (
+    _value,
+    _options,
+    _onChange,
+    _filterPlaceholder,
+    _placeholder
+  ) => {
+    return (
+      <MultiSelect
+        value={_value}
+        options={_options}
+        onChange={(e) => _onChange(e.value)}
+        style={{ width: "100px", minWidth: "15em" }}
+        filter={true}
+        filterPlaceholder={_filterPlaceholder}
+        placeholder={_placeholder}
+      />
     );
   };
 
@@ -240,30 +269,9 @@ export default function EditAlumno({
           actualizar={insertNewAdditional}
         />
         <div className="p-grid" style={{ display: "flex", flexWrap: "wrap" }}>
-          <div className="p-col-12 p-md-4">
-            <InputText
-              placeholder="Nombre"
-              value={iNombre}
-              style={{ width: "250px" }}
-              onChange={(e) => setINombre(e.target.value)}
-            />
-          </div>
-          <div className="p-col-12 p-md-4">
-            <InputText
-              placeholder="Apellido"
-              value={iApellido}
-              style={{ width: "250px" }}
-              onChange={(e) => setIApellido(e.target.value)}
-            />
-          </div>
-          <div className="p-col-12 p-md-4">
-            <InputText
-              placeholder="DNI"
-              value={iDocumento}
-              style={{ width: "250px" }}
-              onChange={(e) => setIDocumento(e.target.value)}
-            />
-          </div>
+          {renderInput("Nombre", iNombre, setINombre)}
+          {renderInput("Apellido", iApellido, setIApellido)}
+          {renderInput("DNI", iDocumento, setIDocumento)}
 
           <div className="p-col-12 p-md-4">
             <Dropdown
@@ -275,18 +283,10 @@ export default function EditAlumno({
               autoWidth={false}
             />
           </div>
-
-          <div className="p-col-12 p-md-4">
-            <InputText
-              placeholder="Legajo"
-              value={iLegajo}
-              style={{ width: "250px" }}
-              onChange={(e) => setILegajo(e.target.value)}
-            />
-          </div>
+          {renderInput("Legajo", iLegajo, setILegajo)}
 
           <div
-            className="p-col-12 p-md-4"
+            className="p-col-12 p-md-4 adic"
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -294,15 +294,14 @@ export default function EditAlumno({
               alignItems: "center",
             }}
           >
-            <MultiSelect
-              value={adicionales1}
-              options={adic}
-              onChange={(e) => handleChangeAdicionales(e.value)}
-              style={{ width: "100px", minWidth: "15em" }}
-              filter={true}
-              filterPlaceholder="Buscar"
-              placeholder="Adicionales"
-            />
+            {renderMultiSelect(
+              adicionales1,
+              adic,
+              handleChangeAdicionales,
+              "Buscar",
+              "Adicionales"
+            )}
+
             <Button
               icon="pi pi-plus"
               style={{ width: "27px", height: "27px", marginLeft: "10px" }}
@@ -310,15 +309,13 @@ export default function EditAlumno({
             />
           </div>
           <div className="p-col-12 p-md-4">
-            <MultiSelect
-              value={comedor1}
-              options={comed}
-              onChange={(e) => setComedor1(e.value)}
-              style={{ width: "250px", minWidth: "15em" }}
-              filter={true}
-              filterPlaceholder="Buscar"
-              placeholder="Comedor"
-            />
+            {renderMultiSelect(
+              comedor1,
+              comed,
+              setComedor1,
+              "Buscar",
+              "Comedor"
+            )}
           </div>
           <div className="p-col-12 p-md-4">
             <div

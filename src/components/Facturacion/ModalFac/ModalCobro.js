@@ -25,7 +25,7 @@ export default function ModalCobro({
   const [expDate, setExpDate] = useState("");
 
   // Debit Payment
-  const [bankAccount, setBankAccount] = useState("");
+  const [bankAccount, setBankAccount] = useState(0);
 
   const onClick = (stateMethod, position = "") => {
     stateMethod(true);
@@ -58,8 +58,10 @@ export default function ModalCobro({
   };
 
   const debitBankAccount = () => {
+console.log(clientSelected._id + ' ' + bankAccount)
     ApiController.updateFacturacion(
       {
+        id: clientSelected._id,
         payWith: 3,
         accountNumber: bankAccount,
       },
@@ -70,6 +72,7 @@ export default function ModalCobro({
   const creditCardPayment = () => {
     ApiController.updateFacturacion(
       {
+        id: clientSelected._id,
         payWith: 1,
         ccNumber: creditCardNumber,
         ccCVV: cvv,
@@ -101,7 +104,7 @@ export default function ModalCobro({
       >
         <p style={{ fontWeigth: "bold" }}>
           *** ATENCION: La modificacion del metodo de pago, modificara el metodo
-              en TODAS las facturas impagas hasta la fecha.
+          en TODAS las facturas impagas hasta la fecha. 
         </p>
 
         <TabView
@@ -117,6 +120,7 @@ export default function ModalCobro({
             <FormDebit
               bankAccount={bankAccount}
               setBankAccount={setBankAccount}
+              clientSelected={clientSelected}
             />
           </TabPanel>
 
@@ -131,6 +135,7 @@ export default function ModalCobro({
               setCvv={setCvv}
               expDate={expDate}
               setExpDate={setExpDate}
+              clientSelected={clientSelected}
             />
           </TabPanel>
         </TabView>

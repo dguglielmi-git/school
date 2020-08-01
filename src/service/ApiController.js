@@ -3,26 +3,26 @@ import { Component } from "react";
 const url = "https://distribuidas-school.herokuapp.com";
 
 // Titular
-const urlGetTitular = "/api/getTitular"; // Get Titular (GET)
-const urlInsertTitular = "/api/insertTitular"; // Insert Titular (POST)
-const urlUpdateTitular = "/api/updateTitular"; // Update Titular (POST)
+const urlGetTitular = "/api/getTitular";
+const urlInsertTitular = "/api/insertTitular";
+const urlUpdateTitular = "/api/updateTitular";
 
 // Student
-const urlGetStudent = "/api/getStudent"; // Get Student (GET)
-const urlInsertStudent = "/api/insertStudent"; // Insert Student (POST)
+const urlGetStudent = "/api/getStudent"; 
+const urlInsertStudent = "/api/insertStudent";
 
 //Employee
-const urlGetEmployee = "/api/getEmployee"; // Get Employee (GET)
-const urlInsertEmployee = "/api/insertEmployee"; // Insert Employee (POST)
-const urlUpdateEmployee = "/api/updateEmployee"; // Update Employee (POST)
+const urlGetEmployee = "/api/getEmployee"; 
+const urlInsertEmployee = "/api/insertEmployee";
+const urlUpdateEmployee = "/api/updateEmployee";
 
 // Facturacion
-const urlUpdatePaymentInfo = "/api/updatePaymentInfo"; // Post
-const urlPayMonthlyBills = "/api/payMonthlyBills"; // Post
-const urlSendEmployeeSalaries = "/api/sendEmployeeSalaries"; // Post
+const urlUpdatePaymentInfo = "/api/updatePaymentInfo";
+const urlPayMonthlyBills = "/api/payMonthlyBills";
+const urlSendEmployeeSalaries = "/api/sendEmployeeSalaries";
 
 //Adicionales
-const urlInsertAdditional = "/api/insertAdditional"; // Post
+const urlInsertAdditional = "/api/insertAdditional"; 
 
 class ApiController extends Component {
   getTitulares(setListaTitulares) {
@@ -133,8 +133,8 @@ class ApiController extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     }).then((response) => {
-      showSuccess();
       console.log(response);
+      showSuccess();
       return response.json();
     });
   }

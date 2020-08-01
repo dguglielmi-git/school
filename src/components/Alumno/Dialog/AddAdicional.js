@@ -1,13 +1,13 @@
-import "primeicons/primeicons.css";
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.css";
-import "primeflex/primeflex.css";
-import "./DialogAdic.css";
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import styled from "styled-components";
+import "./DialogAdic.css";
+import "primereact/resources/primereact.css";
+import "primeflex/primeflex.css";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/nova-light/theme.css";
 
 const Marco = styled.div`
   display: flex;
@@ -36,23 +36,19 @@ export default function DialogAdicionales({ display, setDisplay, actualizar }) {
     stateMethod(false);
   };
 
-  const guardar =() => {
+  const guardar = () => {
     if (nombre !== "" && monto !== "") {
-    actualizar(nombre,monto);
-    setDisplay(false);
+      actualizar(nombre, monto);
+      setDisplay(false);
     } else {
-      alert('Debe ingresar valores en ambos campos para poder guardar')
+      alert("Debe ingresar valores en ambos campos para poder guardar");
     }
-  }
+  };
 
   const renderFooter = (stateMethod) => {
     return (
       <div>
-        <Button
-          label="Guardar"
-          icon="pi pi-save"
-          onClick={() => guardar()}
-        />
+        <Button label="Guardar" icon="pi pi-save" onClick={() => guardar()} />
         <Button
           label="Cerrar"
           icon="pi pi-times"
@@ -60,6 +56,23 @@ export default function DialogAdicionales({ display, setDisplay, actualizar }) {
           className="p-button-secondary"
         />
       </div>
+    );
+  };
+
+  const renderBox = (_value, _func, _label) => {
+    return (
+      <Box>
+        <span className="p-float-label">
+          <InputText
+            id="float-input"
+            type="text"
+            size={30}
+            value={_value}
+            onChange={(e) => _func(e.target.value)}
+          />
+          <label htmlFor="float-input">{_label}</label>
+        </span>
+      </Box>
     );
   };
 
@@ -75,30 +88,8 @@ export default function DialogAdicionales({ display, setDisplay, actualizar }) {
     >
       <Marco>
         <Title>Ingrese nuevo Item Adicional</Title>
-        <Box>
-          <span className="p-float-label">
-            <InputText
-              id="float-input"
-              type="text"
-              size={30}
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
-            <label htmlFor="float-input">Nombre/Descripción</label>
-          </span>
-        </Box>
-        <Box>
-          <span className="p-float-label">
-            <InputText
-              id="float-input"
-              type="text"
-              size={30}
-              value={monto}
-              onChange={(e) => setMonto(e.target.value)}
-            />
-            <label htmlFor="float-input">Monto $</label>
-          </span>
-        </Box>
+        {renderBox(nombre, setNombre, "Nombre/Descripción")}
+        {renderBox(monto, setMonto, "Monto $")}
       </Marco>
     </Dialog>
   );

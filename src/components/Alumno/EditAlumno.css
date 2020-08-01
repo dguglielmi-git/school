@@ -37,4 +37,9 @@ body {
     line-height: 1.5;
 }
             
-                    
+.adic {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}

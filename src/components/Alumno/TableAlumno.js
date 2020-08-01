@@ -185,6 +185,17 @@ export class TableAlumno extends Component {
     }
   }
 
+  columnSingle(_field, _header, _filterph) {
+    return (
+      <Column
+        field={_field}
+        header={_header}
+        sortable
+        filter
+        filterPlaceholder={_filterph}
+      />
+    );
+  }
   render() {
     const header = this.renderHeader();
     const representativeFilter = this.renderRepresentativeFilter();
@@ -219,20 +230,9 @@ export class TableAlumno extends Component {
           rowsPerPageOptions={[10, 25, 50]}
         >
           <Column selectionMode="single" style={{ width: "3em" }} />
-          <Column
-            field="fullName"
-            header="Nombre"
-            sortable
-            filter
-            filterPlaceholder="Buscar por Nombre"
-          />
-          <Column
-            field="documentNumber"
-            header="DNI"
-            sortable
-            filter
-            filterPlaceholder="Buscar por DNI"
-          />
+          {this.columnSingle("fullName","Nombre","Buscar por Nombre")}
+          {this.columnSingle("documentNumber","DNI","Buscar por DNI")}
+          
           <Column
             sortField="titularNombre"
             filterField="titularNombre"
@@ -242,13 +242,7 @@ export class TableAlumno extends Component {
             filter
             filterElement={representativeFilter}
           />
-          <Column
-            field="idNumber"
-            header="Legajo"
-            sortable
-            filter
-            filterPlaceholder="Buscar por Legajo"
-          />
+          {this.columnSingle("idNumber","Legajo","Buscar por Legajo")}
           <Column
             body={(e) => this.actionBodyTemplate(e)}
             headerStyle={{ width: "8em", textAlign: "center" }}
