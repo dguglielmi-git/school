@@ -27,7 +27,7 @@ export class ProcesosBatch extends Component {
     };
   }
   runMonthly() {
-    ApiController.runMonthly({ instalment: this.state.dropdownMes }).then((res) => {
+    ApiController.payMonthlyBills({ instalment: this.state.dropdownMes }).then((res) => {
       console.log(res)
     });
   }
