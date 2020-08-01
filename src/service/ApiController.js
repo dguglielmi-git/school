@@ -51,6 +51,7 @@ class ApiController extends Component {
   }
 
   payMonthlyBills(data) {
+    console.log(data)
     const endpoint = `${url}${urlPayMonthlyBills}`;
     fetch(endpoint, {
       method: "POST",

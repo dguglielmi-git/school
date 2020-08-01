@@ -3,7 +3,7 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "./ModalCobro.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { InputMask } from "primereact/inputmask";
 import { InputText } from "primereact/inputtext";
 
