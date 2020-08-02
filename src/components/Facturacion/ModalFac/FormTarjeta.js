@@ -3,9 +3,10 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "./ModalCobro.css";
-import React from "react";
+import React, { useState } from "react";
 import { InputMask } from "primereact/inputmask";
 import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 
 export default function FormTarjeta({
   creditCardNumber,
@@ -14,8 +15,9 @@ export default function FormTarjeta({
   setCvv,
   expDate,
   setExpDate,
-  clientSelected
+  clientSelected,
 }) {
+  const [prueba, setPrueba] = useState(11111);
   return (
     <div>
       <div className="p-grid p-fluid mainDiv">
@@ -31,12 +33,13 @@ export default function FormTarjeta({
           </span>
 
           <span className="p-float-label spanSt">
-            <InputText
+          <InputMask
               id="float-mask"
+              mask="999"
               value={cvv}
               onChange={(e) => setCvv(e.value)}
             />
-            <label htmlFor="float-mask">Código de Seguridad (999/9999)</label>
+            <label htmlFor="float-mask">Código de Seguridad</label>
           </span>
 
           <span className="p-float-label spanSt">

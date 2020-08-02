@@ -7,10 +7,12 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { InputTextarea } from "primereact/inputtextarea";
+import styled from 'styled-components'
 
-const TAX_RATE = 0.07;
+const Title = styled.div`
 
+display: "flex", flexWrap: "wrap", justifyContent: "center"
+`
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -72,15 +74,6 @@ export default function SpanningTable({ row }) {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div>
-        <p>Respuesta de comprobante de pago.</p>
-        <InputTextarea
-          rows={5}
-          cols={70}
-          value={row.responseData}
-          autoResize={true}
-        />
       </div>
     </div>
   );

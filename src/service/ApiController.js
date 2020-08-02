@@ -24,6 +24,8 @@ const urlSendEmployeeSalaries = "/api/sendEmployeeSalaries";
 //Adicionales
 const urlInsertAdditional = "/api/insertAdditional"; 
 
+
+
 class ApiController extends Component {
   getTitulares(setListaTitulares) {
     const endpoint = `${url}${urlGetTitular}`;
